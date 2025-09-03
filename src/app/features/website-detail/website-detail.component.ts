@@ -14,7 +14,9 @@ import { Website } from '../../shared/models/database.types';
       <div class="max-w-4xl mx-auto" aria-label="Loading website details">
         <div class="animate-pulse">
           <div class="h-8 bg-dark-700 rounded mb-6 w-32" aria-hidden="true"></div>
-          <div class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8">
+          <div
+            class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8"
+          >
             <div class="w-24 h-24 bg-dark-700 rounded-lg mx-auto sm:mx-0" aria-hidden="true"></div>
             <div class="flex-1 text-center sm:text-left">
               <div class="h-8 bg-dark-700 rounded mb-4" aria-hidden="true"></div>
@@ -32,7 +34,12 @@ import { Website } from '../../shared/models/database.types';
       } @else if (!website()) {
       <!-- Error State -->
       <div class="text-center py-16" role="status" aria-live="polite">
-        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <svg
+          class="w-16 h-16 text-gray-400 mx-auto mb-4"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
           <path
             fill-rule="evenodd"
             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
@@ -44,19 +51,19 @@ import { Website } from '../../shared/models/database.types';
           The website you're looking for doesn't exist or has been removed.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button 
-            (click)="goBack()" 
+          <button
+            (click)="goBack()"
             class="btn-primary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
             aria-label="Go back to previous page"
           >
             Go Back
           </button>
-          <a 
-            routerLink="/search" 
+          <a
+            routerLink="/search"
             class="btn-secondary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
             aria-label="Browse all websites"
-          > 
-            Browse All Websites 
+          >
+            Browse All Websites
           </a>
         </div>
       </div>
@@ -64,29 +71,42 @@ import { Website } from '../../shared/models/database.types';
       <!-- Website Detail -->
       <div class="max-w-4xl mx-auto">
         <!-- Breadcrumb -->
-        <nav aria-label="Breadcrumb" class="flex flex-wrap items-center space-x-2 text-sm text-gray-400 mb-6">
-          <a 
-            routerLink="/" 
+        <nav
+          aria-label="Breadcrumb"
+          class="flex flex-wrap items-center space-x-2 text-sm text-gray-400 mb-6"
+        >
+          <a
+            routerLink="/"
             class="hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 rounded px-1 py-1"
             aria-label="Go to home page"
           >
             Home
           </a>
-          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <svg
+            class="w-4 h-4 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
             <path
               fill-rule="evenodd"
               d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
               clip-rule="evenodd"
             ></path>
           </svg>
-          <a 
-            routerLink="/search" 
+          <a
+            routerLink="/search"
             class="hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 rounded px-1 py-1"
             aria-label="Go to search page"
           >
             Search
           </a>
-          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <svg
+            class="w-4 h-4 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
             <path
               fill-rule="evenodd"
               d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -99,7 +119,9 @@ import { Website } from '../../shared/models/database.types';
         <!-- Main Content -->
         <article class="card">
           <!-- Header -->
-          <header class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8">
+          <header
+            class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8"
+          >
             @if (website()!.logo_url) {
             <img
               [src]="website()!.logo_url"
@@ -134,7 +156,11 @@ import { Website } from '../../shared/models/database.types';
               </p>
 
               @if (website()!.tags && website()!.tags!.length > 0) {
-              <div class="flex flex-wrap gap-2 justify-center sm:justify-start" role="list" aria-label="Website tags">
+              <div
+                class="flex flex-wrap gap-2 justify-center sm:justify-start"
+                role="list"
+                aria-label="Website tags"
+              >
                 @for (tag of website()!.tags; track tag.id) {
                 <span
                   class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-400/10 text-primary-400 border border-primary-400/20"
@@ -176,20 +202,20 @@ import { Website } from '../../shared/models/database.types';
               Visit Website
             </a>
 
-            <button 
-              (click)="goBack()" 
+            <button
+              (click)="goBack()"
               class="btn-secondary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
               aria-label="Go back to previous page"
             >
               Go Back
             </button>
 
-            <a 
-              routerLink="/search" 
+            <a
+              routerLink="/search"
               class="btn-secondary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
               aria-label="Browse more websites"
-            > 
-              Browse More 
+            >
+              Browse More
             </a>
           </div>
         </article>
@@ -197,7 +223,12 @@ import { Website } from '../../shared/models/database.types';
         <!-- Related or Suggested Websites Section -->
         @if (website()!.tags && website()!.tags!.length > 0) {
         <section class="mt-8 lg:mt-12" aria-labelledby="similar-websites-heading">
-          <h2 id="similar-websites-heading" class="text-xl sm:text-2xl font-bold text-gray-100 mb-6">Similar Websites</h2>
+          <h2
+            id="similar-websites-heading"
+            class="text-xl sm:text-2xl font-bold text-gray-100 mb-6"
+          >
+            Similar Websites
+          </h2>
           <p class="text-gray-400 mb-4">
             Explore more websites with similar technologies and features.
           </p>

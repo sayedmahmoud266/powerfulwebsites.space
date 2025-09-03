@@ -61,10 +61,10 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           <!-- Tag Filter -->
           <div class="lg:w-64">
             <label for="tag-filter" class="sr-only">Filter by category</label>
-            <select 
+            <select
               id="tag-filter"
-              [(ngModel)]="selectedTagId" 
-              (change)="onTagChange()" 
+              [(ngModel)]="selectedTagId"
+              (change)="onTagChange()"
               class="input-field w-full focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
               aria-describedby="tag-help"
             >
@@ -73,9 +73,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
               <option [value]="tag.id">{{ tag.name }}</option>
               }
             </select>
-            <p id="tag-help" class="sr-only">
-              Filter websites by category or technology type
-            </p>
+            <p id="tag-help" class="sr-only">Filter websites by category or technology type</p>
           </div>
         </div>
 
@@ -89,8 +87,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             aria-label="Search filter active"
           >
             Search: "{{ searchTerm }}"
-            <button 
-              (click)="clearSearch()" 
+            <button
+              (click)="clearSearch()"
               class="ml-2 text-primary-400 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 rounded"
               aria-label="Clear search filter"
             >
@@ -110,8 +108,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             aria-label="Category filter active"
           >
             Category: {{ getSelectedTagName() }}
-            <button 
-              (click)="clearTagFilter()" 
+            <button
+              (click)="clearTagFilter()"
               class="ml-2 text-primary-400 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 rounded"
               aria-label="Clear category filter"
             >
@@ -139,7 +137,10 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
       <!-- Results -->
       <div class="max-w-6xl mx-auto">
         @if (isLoading()) {
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" aria-label="Loading websites">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          aria-label="Loading websites"
+        >
           @for (item of [1,2,3,4,5,6]; track item) {
           <div class="card animate-pulse" aria-hidden="true">
             <div class="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
@@ -159,7 +160,12 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         </div>
         } @else if (filteredWebsites().length === 0) {
         <div class="text-center py-16" role="status" aria-live="polite">
-          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <svg
+            class="w-16 h-16 text-gray-400 mx-auto mb-4"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
             <path
               fill-rule="evenodd"
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -168,11 +174,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           </svg>
           <h3 class="text-xl font-semibold text-gray-300 mb-2">No websites found</h3>
           <p class="text-gray-500 mb-4">
-            @if (searchTerm || selectedTagId) { 
-              Try adjusting your search criteria or clearing the filters. 
-            } @else { 
-              No websites have been added to the collection yet. 
-            }
+            @if (searchTerm || selectedTagId) { Try adjusting your search criteria or clearing the
+            filters. } @else { No websites have been added to the collection yet. }
           </p>
           @if (!searchTerm && !selectedTagId) {
           <a
@@ -185,8 +188,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             Add First Website
           </a>
           } @else {
-          <button 
-            (click)="clearAllFilters()" 
+          <button
+            (click)="clearAllFilters()"
             class="btn-primary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
             aria-label="Clear all filters to see more results"
           >
@@ -196,7 +199,9 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         </div>
         } @else {
         <!-- Results Count -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 space-y-2 sm:space-y-0">
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 space-y-2 sm:space-y-0"
+        >
           <p class="text-gray-400" role="status" aria-live="polite">
             Showing {{ filteredWebsites().length }}
             {{ filteredWebsites().length === 1 ? 'website' : 'websites' }}
@@ -204,7 +209,11 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         </div>
 
         <!-- Website Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list" aria-label="Search results">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          role="list"
+          aria-label="Search results"
+        >
           @for (website of filteredWebsites(); track website.id) {
           <app-website-card [website]="website" />
           }

@@ -46,7 +46,11 @@ import { Website } from '../models/database.types';
           </p>
 
           @if (website().tags && website().tags!.length > 0) {
-          <div class="flex flex-wrap gap-2 mb-3 justify-center sm:justify-start" role="list" aria-label="Website tags">
+          <div
+            class="flex flex-wrap gap-2 mb-3 justify-center sm:justify-start"
+            role="list"
+            aria-label="Website tags"
+          >
             @for (tag of website().tags; track tag.id) {
             <span
               class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-400/10 text-primary-400 border border-primary-400/20"
@@ -58,7 +62,9 @@ import { Website } from '../models/database.types';
           </div>
           }
 
-          <div class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
+          <div
+            class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0"
+          >
             <a
               [href]="website().url"
               target="_blank"
@@ -77,7 +83,7 @@ import { Website } from '../models/database.types';
               Visit Website
             </a>
 
-            <time 
+            <time
               class="text-xs text-gray-500"
               [attr.datetime]="website().created_at"
               [attr.title]="'Added on ' + formatDate(website().created_at)"
