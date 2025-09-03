@@ -11,5 +11,15 @@
   },
   "[prompt]": {
     "editor.formatOnSave": false
-  }
+  },
+  "tailwindCSS.includeLanguages": {
+    "scss": "css",
+    "sass": "css"
+  },
+  "tailwindCSS.experimental.configFile": "./src/styles.scss",
+  "tailwindCSS.experimental.classRegex": [
+    "class:\\s*?[\"'`]([^\"'`]*).*?[\"'`]",
+    "className:\\s*?[\"'`]([^\"'`]*).*?[\"'`]",
+    "\\bclass\\s*=\\s*[\"']([^\"']*)[\"']"
+  ]
 }
