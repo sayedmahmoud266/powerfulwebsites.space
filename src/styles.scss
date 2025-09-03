@@ -1,0 +1,64 @@
+@import 'tailwindcss';
+
+/* Global styles */
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    background-color: #f7da00;
+    color: #0f172a;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #dcbf03;
+  }
+
+  .btn-secondary {
+    background-color: #334155;
+    color: #f1f5f9;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #475569;
+    transition: background-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: #475569;
+  }
+
+  .card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .input-field {
+    background-color: #1e293b;
+    border: 1px solid #475569;
+    color: #f1f5f9;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.2s;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: #f7da00;
+  }
+}

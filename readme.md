@@ -27,18 +27,26 @@ A modern, high-performance, and visually appealing platform built with Angular v
    ```zsh
    npm install
    ```
-3. **Configure Supabase:**
+3. **Configure Supabase (Optional for development):**
    - Create a project at [Supabase](https://supabase.com/)
-   - Copy your API keys and set them in `.env` or `environment.ts`
+   - Update `src/environments/environment.ts` with your Supabase URL and anon key
    - Ensure your database matches the [database structure](./.github/instructions/database-structure.instructions.md)
 4. **Run locally:**
    ```zsh
    npm start
    ```
-5. **Build static site:**
+   The app will be available at `http://localhost:4200` (or next available port)
+5. **Build for production:**
    ```zsh
-   npm run build:ssg
+   npm run build
    ```
+   This builds the SSG version with static pages for home and search, and server-side rendering for dynamic website pages.
+
+## Available Scripts
+- `npm start` - Start development server
+- `npm run build` - Build for production (SSG + SSR)
+- `npm test` - Run unit tests
+- `npm run lint` - Run ESLint
 
 ## Add a Website
 - [Open a GitHub issue to suggest a new website](https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md)

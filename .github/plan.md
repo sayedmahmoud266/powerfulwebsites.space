@@ -7,15 +7,15 @@ This plan outlines the steps to implement a modern, high-performance, and visual
 
 - [x] Add LICENSE file (MIT)
 - [x] Add project README
-- [ ] Set up Angular v20+ project (standalone, signals, SSG, Tailwind, SCSS)
-- [ ] Configure Tailwind CSS (dark mode only, yellow primary)
-- [ ] Set up Supabase integration (env, service, types)
-- [ ] Create core layout: header (GitHub link, badge), footer (GitHub, copyright, owner, add website)
-- [ ] Home page: intro, latest websites, CTA
-- [ ] Search & filter page: search by name/tags, list from Supabase
-- [ ] Website detail page: info, tags, link
-- [ ] Responsive design & accessibility
-- [ ] SSG build config
+- [x] Set up Angular v20+ project (standalone, signals, SSG, Tailwind, SCSS)
+- [x] Configure Tailwind CSS v4 (dark mode only, yellow primary)
+- [x] Set up Supabase integration (env, service, types)
+- [x] Create core layout: header (GitHub link, badge), footer (GitHub, copyright, owner, add website)
+- [x] Home page: intro, latest websites, CTA
+- [x] Search & filter page: search by name/tags, list from Supabase
+- [x] Website detail page: info, tags, link
+- [ ] Responsive design & accessibility improvements
+- [x] SSG build config
 - [ ] Polish, test, and document
 
 ## Prioritization
