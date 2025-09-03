@@ -1,5 +1,5 @@
 {
-  "name": "powerfulwebsites",
+  "name": "powerfulwebsites.space",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "release": "npx semver",
     "serve:ssr:powerfulwebsites": "node dist/powerfulwebsites/server/server.mjs"
   },
   "prettier": {
@@ -21,7 +22,17 @@
       }
     ]
   },
-  "private": true,
+  "private": false,
+  "author": {
+    "name": "Sayed Mahmoud Sayed",
+    "email": "sayedmsayed266+pwrflsites@gmail.com",
+    "url": "https://sayedmahmoud266.website"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sayedmahmoud266/powerfulwebsites.space"
+  },
+  "license": "MIT",
   "dependencies": {
     "@angular/common": "^20.2.0",
     "@angular/compiler": "^20.2.0",
