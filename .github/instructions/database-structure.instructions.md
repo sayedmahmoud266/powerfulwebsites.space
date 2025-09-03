@@ -22,6 +22,6 @@ This project uses Supabase as the backend service, which provides a PostgreSQL d
   - `created_at`: TIMESTAMP, Default to current timestamp
   - `slug`: VARCHAR, Unique slug for the tag
 
-- **website_tags** (Join table for many-to-many relationship between websites and tags)
+- **websites_tags** (Join table for many-to-many relationship between websites and tags)
   - `website_id`: int8, Foreign Key referencing `websites(id)`
   - `tag_id`: int8, Foreign Key referencing `tags(id)`

@@ -21,7 +21,7 @@ export class SupabaseService {
         .select(
           `
           *,
-          website_tags(
+          websites_tags(
             tags(*)
           )
         `
@@ -40,7 +40,7 @@ export class SupabaseService {
       return (
         data?.map((website) => ({
           ...website,
-          tags: website.website_tags?.map((wt: any) => wt.tags) || [],
+          tags: website.websites_tags?.map((wt: any) => wt.tags) || [],
         })) || []
       );
     } catch (error) {
@@ -56,7 +56,7 @@ export class SupabaseService {
         .select(
           `
           *,
-          website_tags(
+          websites_tags(
             tags(*)
           )
         `
@@ -69,7 +69,7 @@ export class SupabaseService {
       if (data) {
         return {
           ...data,
-          tags: data.website_tags?.map((wt: any) => wt.tags) || [],
+          tags: data.websites_tags?.map((wt: any) => wt.tags) || [],
         };
       }
 
@@ -87,7 +87,7 @@ export class SupabaseService {
         .select(
           `
           *,
-          website_tags(
+          websites_tags(
             tags(*)
           )
         `
@@ -100,7 +100,7 @@ export class SupabaseService {
       return (
         data?.map((website) => ({
           ...website,
-          tags: website.website_tags?.map((wt: any) => wt.tags) || [],
+          tags: website.websites_tags?.map((wt: any) => wt.tags) || [],
         })) || []
       );
     } catch (error) {
@@ -116,12 +116,12 @@ export class SupabaseService {
         .select(
           `
           *,
-          website_tags!inner(
+          websites_tags!inner(
             tags!inner(*)
           )
         `
         )
-        .eq('website_tags.tags.slug', tagSlug)
+        .eq('websites_tags.tags.slug', tagSlug)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -129,7 +129,7 @@ export class SupabaseService {
       return (
         data?.map((website) => ({
           ...website,
-          tags: website.website_tags?.map((wt: any) => wt.tags) || [],
+          tags: website.websites_tags?.map((wt: any) => wt.tags) || [],
         })) || []
       );
     } catch (error) {

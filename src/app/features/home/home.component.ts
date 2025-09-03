@@ -8,23 +8,30 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
   selector: 'app-home',
   imports: [RouterLink, WebsiteCardComponent],
   template: `
-    <div class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8">
       <!-- Hero Section -->
-      <section class="text-center py-16">
-        <h1 class="text-5xl md:text-6xl font-bold text-gray-100 mb-6">
+      <section class="text-center py-12 lg:py-16" aria-labelledby="hero-heading">
+        <h1 id="hero-heading" class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-100 mb-6">
           Discover <span class="text-primary-400">Powerful</span> Websites
         </h1>
-        <p class="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+        <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
           A curated collection of the most innovative and powerful websites built with modern web
           technologies. Explore, learn, and get inspired by cutting-edge web development.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a routerLink="/search" class="btn-primary inline-block"> Explore All Websites </a>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a 
+            routerLink="/search" 
+            class="btn-primary inline-block w-full sm:w-auto text-center focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            aria-label="Explore all websites in our collection"
+          > 
+            Explore All Websites 
+          </a>
           <a
             href="https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md&title=Add%20Website%3A%20[Website%20Name]"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-secondary inline-block"
+            class="btn-secondary inline-block w-full sm:w-auto text-center focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            aria-label="Submit a website to our collection (opens in new tab)"
           >
             Submit a Website
           </a>
@@ -32,27 +39,28 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
       </section>
 
       <!-- Latest Websites Section -->
-      <section class="py-16">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-3xl font-bold text-gray-100">Latest Additions</h2>
+      <section class="py-12 lg:py-16" aria-labelledby="latest-heading">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 space-y-4 sm:space-y-0">
+          <h2 id="latest-heading" class="text-2xl sm:text-3xl font-bold text-gray-100">Latest Additions</h2>
           <a
             routerLink="/search"
-            class="text-primary-400 hover:text-primary-500 transition-colors font-medium"
+            class="text-primary-400 hover:text-primary-500 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 rounded px-2 py-1"
+            aria-label="View all websites"
           >
             View All →
           </a>
         </div>
 
         @if (isLoading()) {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" aria-label="Loading websites">
           @for (item of [1,2,3,4,5,6]; track item) {
-          <div class="card animate-pulse">
-            <div class="flex items-start space-x-4">
-              <div class="w-12 h-12 bg-dark-700 rounded-lg"></div>
-              <div class="flex-1">
+          <div class="card animate-pulse" aria-hidden="true">
+            <div class="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
+              <div class="w-16 h-16 sm:w-12 sm:h-12 bg-dark-700 rounded-lg mx-auto sm:mx-0"></div>
+              <div class="flex-1 text-center sm:text-left">
                 <div class="h-5 bg-dark-700 rounded mb-2"></div>
                 <div class="h-4 bg-dark-700 rounded mb-3"></div>
-                <div class="flex space-x-2 mb-3">
+                <div class="flex flex-wrap gap-2 mb-3 justify-center sm:justify-start">
                   <div class="h-6 w-16 bg-dark-700 rounded-full"></div>
                   <div class="h-6 w-20 bg-dark-700 rounded-full"></div>
                 </div>
@@ -63,8 +71,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           }
         </div>
         } @else if (websites().length === 0) {
-        <div class="text-center py-16">
-          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+        <div class="text-center py-16" role="status" aria-live="polite">
+          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path
               fill-rule="evenodd"
               d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
@@ -77,13 +85,14 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             href="https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md&title=Add%20Website%3A%20[Website%20Name]"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary"
+            class="btn-primary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            aria-label="Add the first website to our collection"
           >
             Add First Website
           </a>
         </div>
         } @else {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" role="list" aria-label="Latest websites">
           @for (website of websites(); track website.id) {
           <app-website-card [website]="website" />
           }
@@ -92,12 +101,13 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
       </section>
 
       <!-- Features Section -->
-      <section class="py-16 border-t border-dark-700">
-        <h2 class="text-3xl font-bold text-gray-100 text-center mb-12">Why Use Our Platform?</h2>
+      <section class="py-12 lg:py-16 border-t border-dark-700" aria-labelledby="features-heading">
+        <h2 id="features-heading" class="text-2xl sm:text-3xl font-bold text-gray-100 text-center mb-12">Why Use Our Platform?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="text-center">
             <div
               class="w-16 h-16 bg-primary-400/10 rounded-lg flex items-center justify-center mx-auto mb-4"
+              aria-hidden="true"
             >
               <svg class="w-8 h-8 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -116,6 +126,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           <div class="text-center">
             <div
               class="w-16 h-16 bg-primary-400/10 rounded-lg flex items-center justify-center mx-auto mb-4"
+              aria-hidden="true"
             >
               <svg class="w-8 h-8 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -135,6 +146,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           <div class="text-center">
             <div
               class="w-16 h-16 bg-primary-400/10 rounded-lg flex items-center justify-center mx-auto mb-4"
+              aria-hidden="true"
             >
               <svg class="w-8 h-8 text-primary-400" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -152,7 +164,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           </div>
         </div>
       </section>
-    </div>
+    </main>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -173,3 +185,6 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+
+// Export default for lazy loading
+export default HomeComponent;
