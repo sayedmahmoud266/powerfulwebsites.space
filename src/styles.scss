@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background-color: #0f172a;
+  background-color: #121212;
   color: #f1f5f9;
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.6;
@@ -15,32 +15,15 @@ body {
 
 /* Focus visible styles for better accessibility */
 *:focus-visible {
-  outline: 2px solid #f7da00;
+  outline: 2px solid #fb6044;
   outline-offset: 2px;
-}
-
-/* Skip to content link for screen readers */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #f7da00;
-  color: #0f172a;
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 4px;
-  z-index: 1000;
-}
-
-.skip-link:focus {
-  top: 6px;
 }
 
 /* Custom component styles */
 @layer components {
   .btn-primary {
-    background-color: #f7da00;
-    color: #0f172a;
+    background-color: #fb6044;
+    color: #121212;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
@@ -52,7 +35,7 @@ body {
   }
 
   .btn-primary:hover {
-    background-color: #dcbf03;
+    background-color: #e55239;
     transform: translateY(-1px);
   }
 
@@ -84,7 +67,7 @@ body {
   }
 
   .card {
-    background-color: #1e293b;
+    background-color: #1a1a1a;
     border: 1px solid #334155;
     border-radius: 0.75rem;
     padding: 1.5rem;
@@ -98,7 +81,7 @@ body {
   }
 
   .input-field {
-    background-color: #1e293b;
+    background-color: #1a1a1a;
     border: 2px solid #475569;
     color: #f1f5f9;
     border-radius: 0.5rem;
@@ -109,8 +92,8 @@ body {
 
   .input-field:focus {
     outline: none;
-    border-color: #f7da00;
-    box-shadow: 0 0 0 3px rgba(247, 218, 0, 0.1);
+    border-color: #fb6044;
+    box-shadow: 0 0 0 3px rgba(251, 96, 68, 0.1);
   }
 
   .input-field::placeholder {

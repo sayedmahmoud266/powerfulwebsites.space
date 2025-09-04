@@ -6,7 +6,7 @@ import { Website } from '../models/database.types';
   selector: 'app-website-card',
   imports: [RouterLink],
   template: `
-    <article class="card hover:border-primary-400 transition-all duration-200 group" role="article">
+    <article class="card hover:border-orange-400 transition-all duration-200 group" role="article">
       <div class="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
         @if (website().logo_url) {
         <img
@@ -17,7 +17,7 @@ import { Website } from '../models/database.types';
         />
         } @else {
         <div
-          class="w-16 h-16 sm:w-12 sm:h-12 bg-dark-700 rounded-lg flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0"
+          class="w-16 h-16 sm:w-12 sm:h-12 bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0"
           aria-hidden="true"
         >
           <svg class="w-8 h-8 sm:w-6 sm:h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -32,8 +32,8 @@ import { Website } from '../models/database.types';
 
         <div class="flex-1 min-w-0 text-center sm:text-left">
           <a
-            [routerLink]="['/website', website().id]"
-            class="block group-hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded"
+            [routerLink]="['/website', encodeWebsiteName(website().name)]"
+            class="block group-hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded"
             [attr.aria-label]="'View details for ' + website().name"
           >
             <h3 class="text-lg font-semibold text-gray-100 mb-1 truncate">
@@ -52,12 +52,15 @@ import { Website } from '../models/database.types';
             aria-label="Website tags"
           >
             @for (tag of website().tags; track tag.id) {
-            <span
-              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-400/10 text-primary-400 border border-primary-400/20"
+            <a
+              [routerLink]="['/search']"
+              [queryParams]="{ tag: tag.slug }"
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-400/10 text-orange-400 border border-orange-400/20 hover:bg-orange-400/20 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               role="listitem"
+              [attr.aria-label]="'Filter websites by ' + tag.name + ' tag'"
             >
               {{ tag.name }}
-            </span>
+            </a>
             }
           </div>
           }
@@ -69,7 +72,7 @@ import { Website } from '../models/database.types';
               [href]="website().url"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center text-sm text-gray-400 hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
+              class="inline-flex items-center text-sm text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
               [attr.aria-label]="'Visit ' + website().name + ' website (opens in new tab)'"
             >
               <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -107,5 +110,9 @@ export class WebsiteCardComponent {
       month: 'short',
       day: 'numeric',
     });
+  }
+
+  encodeWebsiteName(name: string): string {
+    return encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-'));
   }
 }

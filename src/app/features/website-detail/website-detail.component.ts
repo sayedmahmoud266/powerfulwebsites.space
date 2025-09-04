@@ -13,22 +13,22 @@ import { Website } from '../../shared/models/database.types';
       <!-- Loading State -->
       <div class="max-w-4xl mx-auto" aria-label="Loading website details">
         <div class="animate-pulse">
-          <div class="h-8 bg-dark-700 rounded mb-6 w-32" aria-hidden="true"></div>
+          <div class="h-8 bg-gray-700 rounded mb-6 w-32" aria-hidden="true"></div>
           <div
             class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8"
           >
-            <div class="w-24 h-24 bg-dark-700 rounded-lg mx-auto sm:mx-0" aria-hidden="true"></div>
+            <div class="w-24 h-24 bg-gray-700 rounded-lg mx-auto sm:mx-0" aria-hidden="true"></div>
             <div class="flex-1 text-center sm:text-left">
-              <div class="h-8 bg-dark-700 rounded mb-4" aria-hidden="true"></div>
-              <div class="h-6 bg-dark-700 rounded mb-4" aria-hidden="true"></div>
+              <div class="h-8 bg-gray-700 rounded mb-4" aria-hidden="true"></div>
+              <div class="h-6 bg-gray-700 rounded mb-4" aria-hidden="true"></div>
               <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
-                <div class="h-8 w-24 bg-dark-700 rounded-full" aria-hidden="true"></div>
-                <div class="h-8 w-32 bg-dark-700 rounded-full" aria-hidden="true"></div>
+                <div class="h-8 w-24 bg-gray-700 rounded-full" aria-hidden="true"></div>
+                <div class="h-8 w-32 bg-gray-700 rounded-full" aria-hidden="true"></div>
               </div>
             </div>
           </div>
-          <div class="h-32 bg-dark-700 rounded mb-6" aria-hidden="true"></div>
-          <div class="h-12 bg-dark-700 rounded" aria-hidden="true"></div>
+          <div class="h-32 bg-gray-700 rounded mb-6" aria-hidden="true"></div>
+          <div class="h-12 bg-gray-700 rounded" aria-hidden="true"></div>
         </div>
       </div>
       } @else if (!website()) {
@@ -53,14 +53,14 @@ import { Website } from '../../shared/models/database.types';
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             (click)="goBack()"
-            class="btn-primary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            class="btn-primary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             aria-label="Go back to previous page"
           >
             Go Back
           </button>
           <a
             routerLink="/search"
-            class="btn-secondary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            class="btn-secondary w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             aria-label="Browse all websites"
           >
             Browse All Websites
@@ -77,7 +77,7 @@ import { Website } from '../../shared/models/database.types';
         >
           <a
             routerLink="/"
-            class="hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 rounded px-1 py-1"
+            class="hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 rounded px-1 py-1"
             aria-label="Go to home page"
           >
             Home
@@ -96,7 +96,7 @@ import { Website } from '../../shared/models/database.types';
           </svg>
           <a
             routerLink="/search"
-            class="hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 rounded px-1 py-1"
+            class="hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 rounded px-1 py-1"
             aria-label="Go to search page"
           >
             Search
@@ -270,14 +270,25 @@ export class WebsiteDetailComponent implements OnInit {
   isLoading = signal(true);
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id || isNaN(+id)) {
+    const param =
+      this.route.snapshot.paramMap.get('id') || this.route.snapshot.paramMap.get('name');
+    if (!param) {
       this.router.navigate(['/search']);
       return;
     }
 
     try {
-      const websiteData = await this.supabaseService.getWebsiteById(+id);
+      let websiteData: Website | null = null;
+
+      // Check if the parameter is a number (ID) or a string (name)
+      if (!isNaN(+param)) {
+        // It's an ID
+        websiteData = await this.supabaseService.getWebsiteById(+param);
+      } else {
+        // It's a name
+        websiteData = await this.supabaseService.getWebsiteByName(param);
+      }
+
       this.website.set(websiteData);
     } catch (error) {
       console.error('Error loading website:', error);

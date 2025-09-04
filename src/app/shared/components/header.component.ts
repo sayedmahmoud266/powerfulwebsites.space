@@ -4,15 +4,22 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-header',
   template: `
-    <header class="bg-dark-800 border-b border-dark-700 sticky top-0 z-50">
+    <header class="border-b border-gray-700 sticky top-0 z-50" style="background-color: #121212;">
       <div class="container mx-auto px-4 py-4">
         <nav class="flex items-center justify-between">
           <div class="flex items-center space-x-6">
             <a
               routerLink="/"
-              class="text-xl sm:text-2xl font-bold text-primary-400 hover:text-primary-500 transition-colors"
+              class="flex items-center space-x-3 text-xl sm:text-2xl font-bold text-orange-400 hover:text-orange-500 transition-colors uppercase"
+              style="font-family: 'Bungee', system-ui, -apple-system, sans-serif;"
               aria-label="powerfulwebsites.space home"
             >
+              <img
+                src="/logo.png"
+                alt="Powerful Websites Logo"
+                class="w-8 h-8 sm:w-10 sm:h-10"
+                loading="eager"
+              />
               <span class="hidden sm:inline">powerfulwebsites.space</span>
               <span class="sm:hidden">PWS</span>
             </a>
@@ -20,14 +27,16 @@ import { RouterLink } from '@angular/router';
             <div class="hidden md:flex space-x-4">
               <a
                 routerLink="/"
-                class="text-gray-300 hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-2 py-1"
+                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded px-2 py-1"
+                style="--tw-ring-offset-color: #121212;"
                 aria-label="Home page"
               >
                 Home
               </a>
               <a
                 routerLink="/search"
-                class="text-gray-300 hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-2 py-1"
+                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded px-2 py-1"
+                style="--tw-ring-offset-color: #121212;"
                 aria-label="Search websites"
               >
                 Search
@@ -41,7 +50,8 @@ import { RouterLink } from '@angular/router';
               href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
               target="_blank"
               rel="noopener noreferrer"
-              class="hidden sm:flex items-center space-x-2 bg-dark-700 hover:bg-dark-600 px-3 py-1 rounded-lg border border-dark-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800"
+              class="hidden sm:flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg border border-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+              style="--tw-ring-offset-color: #121212;"
               aria-label="Star on GitHub"
             >
               <svg
@@ -58,7 +68,7 @@ import { RouterLink } from '@angular/router';
               </svg>
               <span class="text-sm text-gray-300">GitHub</span>
               <span
-                class="bg-primary-400 text-dark-900 text-xs px-2 py-0.5 rounded-full font-semibold"
+                class="bg-orange-400 text-gray-900 text-xs px-2 py-0.5 rounded-full font-semibold"
               >
                 ★ Star
               </span>
@@ -69,7 +79,8 @@ import { RouterLink } from '@angular/router';
               href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
               target="_blank"
               rel="noopener noreferrer"
-              class="sm:hidden p-2 text-gray-300 hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded"
+              class="sm:hidden p-2 text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded"
+              style="--tw-ring-offset-color: #121212;"
               aria-label="View on GitHub"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -84,7 +95,8 @@ import { RouterLink } from '@angular/router';
             <!-- Mobile Menu Button -->
             <button
               (click)="toggleMobileMenu()"
-              class="md:hidden p-2 text-gray-300 hover:text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded"
+              class="md:hidden p-2 text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded"
+              style="--tw-ring-offset-color: #121212;"
               [attr.aria-expanded]="mobileMenuOpen()"
               aria-label="Toggle navigation menu"
             >
@@ -125,19 +137,21 @@ import { RouterLink } from '@angular/router';
 
         <!-- Mobile Navigation Menu -->
         @if (mobileMenuOpen()) {
-        <div class="md:hidden mt-4 pb-4 border-t border-dark-700 pt-4">
+        <div class="md:hidden mt-4 pb-4 border-t border-gray-700 pt-4">
           <div class="flex flex-col space-y-2">
             <a
               routerLink="/"
               (click)="closeMobileMenu()"
-              class="text-gray-300 hover:text-primary-400 transition-colors px-2 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800"
+              class="text-gray-300 hover:text-orange-400 transition-colors px-2 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+              style="--tw-ring-offset-color: #121212;"
             >
               Home
             </a>
             <a
               routerLink="/search"
               (click)="closeMobileMenu()"
-              class="text-gray-300 hover:text-primary-400 transition-colors px-2 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800"
+              class="text-gray-300 hover:text-orange-400 transition-colors px-2 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+              style="--tw-ring-offset-color: #121212;"
             >
               Search
             </a>

@@ -10,7 +10,7 @@ This project uses Supabase as the backend service, which provides a PostgreSQL d
 
 - **websites** (Main table to store website information)
   - `id`: int8, Primary Key
-  - `name`: VARCHAR, Name of the website
+  - `name`: VARCHAR, Name of the website (UNIQUE)
   - `url`: VARCHAR, URL of the website
   - `description`: TEXT, Description of the website
   - `created_at`: TIMESTAMP, Default to current timestamp

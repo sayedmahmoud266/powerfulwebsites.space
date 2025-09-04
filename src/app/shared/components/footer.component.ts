@@ -3,7 +3,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `
-    <footer class="bg-dark-800 border-t border-dark-700 mt-auto" role="contentinfo">
+    <footer
+      class="border-t border-gray-700 mt-auto"
+      style="background-color: #121212;"
+      role="contentinfo"
+    >
       <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- About -->

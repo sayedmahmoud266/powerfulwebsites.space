@@ -80,6 +80,40 @@ export class SupabaseService {
     }
   }
 
+  async getWebsiteByName(name: string): Promise<Website | null> {
+    try {
+      // Decode the URL-encoded name back to the original name
+      const decodedName = decodeURIComponent(name.replace(/-/g, ' '));
+
+      const { data, error } = await this.supabase
+        .from('websites')
+        .select(
+          `
+          *,
+          websites_tags(
+            tags(*)
+          )
+        `
+        )
+        .ilike('name', decodedName)
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        return {
+          ...data,
+          tags: data.websites_tags?.map((wt: any) => wt.tags) || [],
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error fetching website by name:', error);
+      return null;
+    }
+  }
+
   async searchWebsites(searchTerm: string): Promise<Website[]> {
     try {
       const { data, error } = await this.supabase

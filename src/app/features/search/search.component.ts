@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { Website, Tag } from '../../shared/models/database.types';
 import { WebsiteCardComponent } from '../../shared/components/website-card.component';
@@ -47,9 +48,9 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
                 id="search-input"
                 type="text"
                 placeholder="Search websites by name or description..."
-                [(ngModel)]="searchTerm"
-                (input)="onSearchChange()"
-                class="input-field pl-10 w-full focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+                [value]="searchTerm()"
+                (input)="onSearchChange($event)"
+                class="input-field pl-10 w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
                 aria-describedby="search-help"
               />
             </div>
@@ -58,38 +59,77 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             </p>
           </div>
 
-          <!-- Tag Filter -->
+          <!-- Tag Search and Selection -->
           <div class="lg:w-64">
-            <label for="tag-filter" class="sr-only">Filter by category</label>
-            <select
-              id="tag-filter"
-              [(ngModel)]="selectedTagId"
-              (change)="onTagChange()"
-              class="input-field w-full focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
-              aria-describedby="tag-help"
-            >
-              <option value="">All categories</option>
-              @for (tag of tags(); track tag.id) {
-              <option [value]="tag.id">{{ tag.name }}</option>
+            <label for="tag-search" class="sr-only">Search and select tags</label>
+            <div class="relative">
+              <input
+                id="tag-search"
+                type="text"
+                placeholder="Search tags..."
+                [value]="tagSearchTerm()"
+                (input)="onTagSearchChange($event)"
+                class="input-field w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              />
+              @if (filteredTags().length > 0 && tagSearchTerm()) {
+              <div
+                class="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
+              >
+                @for (tag of filteredTags(); track tag.id) { @if (!isTagSelected(tag)) {
+                <button
+                  (click)="addTag(tag)"
+                  class="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-300 hover:text-orange-400 transition-colors"
+                >
+                  {{ tag.name }}
+                </button>
+                } }
+              </div>
               }
-            </select>
-            <p id="tag-help" class="sr-only">Filter websites by category or technology type</p>
+            </div>
           </div>
         </div>
 
-        <!-- Active Filters -->
-        @if (searchTerm || selectedTagId) {
+        <!-- Selected Tags -->
+        @if (selectedTags().length > 0) {
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-gray-300 mb-2">Selected Tags:</h3>
+          <div class="flex flex-wrap gap-2">
+            @for (tag of selectedTags(); track tag.id) {
+            <div
+              class="inline-flex items-center bg-orange-400/10 text-orange-400 px-3 py-1 rounded-full text-sm border border-orange-400/20"
+            >
+              {{ tag.name }}
+              <button
+                (click)="removeTag(tag)"
+                class="ml-2 text-orange-400 hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded"
+                [attr.aria-label]="'Remove ' + tag.name + ' tag'"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Active Search Filter -->
+        @if (searchTerm()) {
         <div class="flex flex-wrap gap-2 mb-6" role="region" aria-label="Active filters">
-          @if (searchTerm) {
           <div
-            class="inline-flex items-center bg-primary-400/10 text-primary-400 px-3 py-1 rounded-full text-sm border border-primary-400/20"
+            class="inline-flex items-center bg-orange-400/10 text-orange-400 px-3 py-1 rounded-full text-sm border border-orange-400/20"
             role="status"
             aria-label="Search filter active"
           >
-            Search: "{{ searchTerm }}"
+            Search: "{{ searchTerm() }}"
             <button
               (click)="clearSearch()"
-              class="ml-2 text-primary-400 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 rounded"
+              class="ml-2 text-orange-400 hover:text-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded"
               aria-label="Clear search filter"
             >
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -101,35 +141,16 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
               </svg>
             </button>
           </div>
-          } @if (selectedTagId) {
-          <div
-            class="inline-flex items-center bg-primary-400/10 text-primary-400 px-3 py-1 rounded-full text-sm border border-primary-400/20"
-            role="status"
-            aria-label="Category filter active"
-          >
-            Category: {{ getSelectedTagName() }}
-            <button
-              (click)="clearTagFilter()"
-              class="ml-2 text-primary-400 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 rounded"
-              aria-label="Clear category filter"
-            >
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          }
+
+          @if (searchTerm() || selectedTags().length > 0) {
           <button
             (click)="clearAllFilters()"
-            class="text-gray-400 hover:text-primary-400 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900 rounded px-2 py-1"
+            class="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1"
             aria-label="Clear all filters"
           >
             Clear all
           </button>
+          }
         </div>
         }
       </div>
@@ -144,15 +165,15 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           @for (item of [1,2,3,4,5,6]; track item) {
           <div class="card animate-pulse" aria-hidden="true">
             <div class="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
-              <div class="w-16 h-16 sm:w-12 sm:h-12 bg-dark-700 rounded-lg mx-auto sm:mx-0"></div>
+              <div class="w-16 h-16 sm:w-12 sm:h-12 bg-gray-700 rounded-lg mx-auto sm:mx-0"></div>
               <div class="flex-1 text-center sm:text-left">
-                <div class="h-5 bg-dark-700 rounded mb-2"></div>
-                <div class="h-4 bg-dark-700 rounded mb-3"></div>
+                <div class="h-5 bg-gray-700 rounded mb-2"></div>
+                <div class="h-4 bg-gray-700 rounded mb-3"></div>
                 <div class="flex flex-wrap gap-2 mb-3 justify-center sm:justify-start">
-                  <div class="h-6 w-16 bg-dark-700 rounded-full"></div>
-                  <div class="h-6 w-20 bg-dark-700 rounded-full"></div>
+                  <div class="h-6 w-16 bg-gray-700 rounded-full"></div>
+                  <div class="h-6 w-20 bg-gray-700 rounded-full"></div>
                 </div>
-                <div class="h-4 bg-dark-700 rounded"></div>
+                <div class="h-4 bg-gray-700 rounded"></div>
               </div>
             </div>
           </div>
@@ -174,15 +195,15 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           </svg>
           <h3 class="text-xl font-semibold text-gray-300 mb-2">No websites found</h3>
           <p class="text-gray-500 mb-4">
-            @if (searchTerm || selectedTagId) { Try adjusting your search criteria or clearing the
-            filters. } @else { No websites have been added to the collection yet. }
+            @if (searchTerm() || selectedTags().length > 0) { Try adjusting your search criteria or
+            clearing the filters. } @else { No websites have been added to the collection yet. }
           </p>
-          @if (!searchTerm && !selectedTagId) {
+          @if (!searchTerm() && selectedTags().length === 0) {
           <a
             href="https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md&title=Add%20Website%3A%20[Website%20Name]"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             aria-label="Add the first website to our collection"
           >
             Add First Website
@@ -190,7 +211,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           } @else {
           <button
             (click)="clearAllFilters()"
-            class="btn-primary focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             aria-label="Clear all filters to see more results"
           >
             Clear Filters
@@ -226,31 +247,43 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
 })
 export class SearchComponent implements OnInit {
   private supabaseService = inject(SupabaseService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   websites = signal<Website[]>([]);
   tags = signal<Tag[]>([]);
   isLoading = signal(true);
 
-  searchTerm = '';
-  selectedTagId = '';
+  searchTerm = signal('');
+  selectedTags = signal<Tag[]>([]);
+  tagSearchTerm = signal('');
+
+  // Computed properties
+  filteredTags = computed(() => {
+    const term = this.tagSearchTerm().toLowerCase().trim();
+    if (!term) return this.tags();
+    return this.tags().filter((tag) => tag.name.toLowerCase().includes(term));
+  });
 
   filteredWebsites = computed(() => {
     let filtered = this.websites();
 
     // Filter by search term
-    if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase().trim();
+    const term = this.searchTerm().trim();
+    if (term) {
+      const searchLower = term.toLowerCase();
       filtered = filtered.filter(
         (website) =>
-          website.name.toLowerCase().includes(term) ||
-          website.description.toLowerCase().includes(term)
+          website.name.toLowerCase().includes(searchLower) ||
+          website.description.toLowerCase().includes(searchLower)
       );
     }
 
-    // Filter by tag
-    if (this.selectedTagId) {
-      const tagId = parseInt(this.selectedTagId);
-      filtered = filtered.filter((website) => website.tags?.some((tag) => tag.id === tagId));
+    // Filter by selected tags
+    const tags = this.selectedTags();
+    if (tags.length > 0) {
+      const tagIds = tags.map((tag) => tag.id);
+      filtered = filtered.filter((website) => website.tags?.some((tag) => tagIds.includes(tag.id)));
     }
 
     return filtered;
@@ -258,6 +291,17 @@ export class SearchComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadData();
+
+    // Handle route parameters for tag filtering
+    this.route.queryParams.subscribe((params) => {
+      if (params['tag']) {
+        const tagSlug = params['tag'];
+        const tag = this.tags().find((t) => t.slug === tagSlug);
+        if (tag && !this.selectedTags().find((t) => t.id === tag.id)) {
+          this.selectedTags.update((tags) => [...tags, tag]);
+        }
+      }
+    });
   }
 
   private async loadData() {
@@ -277,31 +321,38 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  onSearchChange() {
-    // Debounce search if needed - for now immediate search
+  onSearchChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm.set(target.value);
   }
 
-  onTagChange() {
-    // Tag filter changed - already handled by computed signal
+  onTagSearchChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.tagSearchTerm.set(target.value);
+  }
+
+  isTagSelected(tag: Tag): boolean {
+    return this.selectedTags().find((t) => t.id === tag.id) !== undefined;
+  }
+
+  addTag(tag: Tag) {
+    if (!this.isTagSelected(tag)) {
+      this.selectedTags.update((tags) => [...tags, tag]);
+    }
+    this.tagSearchTerm.set('');
+  }
+
+  removeTag(tagToRemove: Tag) {
+    this.selectedTags.update((tags) => tags.filter((tag) => tag.id !== tagToRemove.id));
   }
 
   clearSearch() {
-    this.searchTerm = '';
-  }
-
-  clearTagFilter() {
-    this.selectedTagId = '';
+    this.searchTerm.set('');
   }
 
   clearAllFilters() {
-    this.searchTerm = '';
-    this.selectedTagId = '';
-  }
-
-  getSelectedTagName(): string {
-    if (!this.selectedTagId) return '';
-    const tag = this.tags().find((t) => t.id === parseInt(this.selectedTagId));
-    return tag?.name || '';
+    this.searchTerm.set('');
+    this.selectedTags.set([]);
   }
 }
 
