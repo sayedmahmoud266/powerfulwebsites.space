@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
+  imports: [RouterModule],
   template: `
     <header class="border-b border-gray-700 sticky top-0 z-50" style="background-color: #121212;">
       <div class="container mx-auto px-4 py-4">
@@ -27,7 +28,7 @@ import { RouterLink } from '@angular/router';
             <div class="hidden md:flex space-x-4">
               <a
                 routerLink="/"
-                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded px-2 py-1"
+                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none"
                 style="--tw-ring-offset-color: #121212;"
                 aria-label="Home page"
               >
@@ -35,7 +36,7 @@ import { RouterLink } from '@angular/router';
               </a>
               <a
                 routerLink="/search"
-                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 rounded px-2 py-1"
+                class="text-gray-300 hover:text-orange-400 transition-colors focus:outline-none"
                 style="--tw-ring-offset-color: #121212;"
                 aria-label="Search websites"
               >

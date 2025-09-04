@@ -71,7 +71,7 @@ import { Website } from '../models/database.types';
             <a
               [href]="website().url"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               class="inline-flex items-center text-sm text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-1 py-1"
               [attr.aria-label]="'Visit ' + website().name + ' website (opens in new tab)'"
             >
@@ -113,6 +113,6 @@ export class WebsiteCardComponent {
   }
 
   encodeWebsiteName(name: string): string {
-    return encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-'));
+    return encodeURIComponent(name);
   }
 }
