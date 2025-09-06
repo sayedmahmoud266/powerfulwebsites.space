@@ -19,8 +19,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
     <main class="mx-auto px-4 py-8">
       <!-- Header -->
       <div class="text-center mb-8 lg:mb-12">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">Discover Websites</h1>
-        <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-zinc-100 mb-4">Discover Websites</h1>
+        <p class="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto">
           Search through our collection of powerful websites or filter by technology and category.
         </p>
       </div>
@@ -33,7 +33,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             <label for="search-input" class="sr-only">Search websites</label>
             <div class="relative">
               <svg
-                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 aria-hidden="true"
@@ -50,7 +50,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
                 placeholder="Search websites by name or description..."
                 [value]="searchTerm()"
                 (input)="onSearchChange($event)"
-                class="input-field pl-10 w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                class="input-field pl-10 w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900"
                 aria-describedby="search-help"
               />
             </div>
@@ -72,12 +72,12 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
                 (focus)="setDropdownOpen(true)"
                 (blur)="onInputBlur()"
                 (keydown)="onKeyDown($event)"
-                class="input-field w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                class="input-field w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900"
               />
               <button
                 type="button"
                 (click)="toggleDropdown()"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded"
                 aria-label="Toggle tag dropdown"
               >
                 <svg
@@ -96,7 +96,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
               </button>
               @if (isDropdownOpen() && filteredTags().length > 0) {
               <div
-                class="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-orange-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
+                class="absolute top-full left-0 right-0 mt-1 bg-zinc-800 border border-orange-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
               >
                 @for (tag of filteredTags(); track tag.id; let i = $index) {
                 <button
@@ -104,8 +104,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
                   (click)="toggleTag(tag)"
                   (mousedown)="$event.preventDefault()"
                   (mouseenter)="setHighlightedIndex(i)"
-                  [class.bg-gray-700]="i === highlightedIndex()"
-                  class="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-300 hover:text-orange-400 transition-colors flex items-center justify-between"
+                  [class.bg-zinc-700]="i === highlightedIndex()"
+                  class="w-full text-left px-3 py-2 hover:bg-zinc-700 text-zinc-300 hover:text-orange-400 transition-colors flex items-center justify-between"
                 >
                   <span>{{ tag.name }}</span>
                   @if (isTagSelected(tag)) {
@@ -133,7 +133,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         <!-- Selected Tags -->
         @if (selectedTags().length > 0) {
         <div class="mb-6">
-          <h3 class="text-sm font-medium text-gray-300 mb-2">Selected Tags:</h3>
+          <h3 class="text-sm font-medium text-zinc-300 mb-2">Selected Tags:</h3>
           <div class="flex flex-wrap gap-2">
             @for (tag of selectedTags(); track tag.id) {
             <div
@@ -186,7 +186,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           @if (searchTerm() || selectedTags().length > 0) {
           <button
             (click)="clearAllFilters()"
-            class="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1"
+            class="text-zinc-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900 rounded px-2 py-1"
             aria-label="Clear all filters"
           >
             Clear all
@@ -206,15 +206,15 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           @for (item of [1,2,3,4,5,6]; track item) {
           <div class="card animate-pulse" aria-hidden="true">
             <div class="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
-              <div class="w-16 h-16 sm:w-12 sm:h-12 bg-gray-700 rounded-lg mx-auto sm:mx-0"></div>
+              <div class="w-16 h-16 sm:w-12 sm:h-12 bg-zinc-700 rounded-lg mx-auto sm:mx-0"></div>
               <div class="flex-1 text-center sm:text-left">
-                <div class="h-5 bg-gray-700 rounded mb-2"></div>
-                <div class="h-4 bg-gray-700 rounded mb-3"></div>
+                <div class="h-5 bg-zinc-700 rounded mb-2"></div>
+                <div class="h-4 bg-zinc-700 rounded mb-3"></div>
                 <div class="flex flex-wrap gap-2 mb-3 justify-center sm:justify-start">
-                  <div class="h-6 w-16 bg-gray-700 rounded-full"></div>
-                  <div class="h-6 w-20 bg-gray-700 rounded-full"></div>
+                  <div class="h-6 w-16 bg-zinc-700 rounded-full"></div>
+                  <div class="h-6 w-20 bg-zinc-700 rounded-full"></div>
                 </div>
-                <div class="h-4 bg-gray-700 rounded"></div>
+                <div class="h-4 bg-zinc-700 rounded"></div>
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         } @else if (filteredWebsites().length === 0) {
         <div class="text-center py-16" role="status" aria-live="polite">
           <svg
-            class="w-16 h-16 text-gray-400 mx-auto mb-4"
+            class="w-16 h-16 text-zinc-400 mx-auto mb-4"
             fill="currentColor"
             viewBox="0 0 20 20"
             aria-hidden="true"
@@ -234,8 +234,8 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
               clip-rule="evenodd"
             ></path>
           </svg>
-          <h3 class="text-xl font-semibold text-gray-300 mb-2">No websites found</h3>
-          <p class="text-gray-500 mb-4">
+          <h3 class="text-xl font-semibold text-zinc-300 mb-2">No websites found</h3>
+          <p class="text-zinc-500 mb-4">
             @if (searchTerm() || selectedTags().length > 0) { Try adjusting your search criteria or
             clearing the filters. } @else { No websites have been added to the collection yet. }
           </p>
@@ -244,7 +244,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
             href="https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md&title=Add%20Website%3A%20[Website%20Name]"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900"
             aria-label="Add the first website to our collection"
           >
             Add First Website
@@ -252,7 +252,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
           } @else {
           <button
             (click)="clearAllFilters()"
-            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+            class="btn-primary focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900"
             aria-label="Clear all filters to see more results"
           >
             Clear Filters
@@ -264,7 +264,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
         <div
           class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 space-y-2 sm:space-y-0"
         >
-          <p class="text-gray-400" role="status" aria-live="polite">
+          <p class="text-zinc-400" role="status" aria-live="polite">
             Showing {{ filteredWebsites().length }}
             {{ filteredWebsites().length === 1 ? 'website' : 'websites' }}
           </p>

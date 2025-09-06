@@ -13,11 +13,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
           <!-- About -->
           <div class="sm:col-span-2 lg:col-span-1">
             <h3 class="text-lg font-semibold text-primary-400 mb-4">About</h3>
-            <p class="text-gray-400 mb-4 leading-relaxed">
+            <p class="text-zinc-400 mb-4 leading-relaxed">
               A curated list of powerful websites built with modern web technologies. Open source
-              and coded by GitHub Copilot.
+              and vibe coded by GitHub Copilot.
             </p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-zinc-500">
               Project owner:
               <a
                 href="https://sayedmahmoud266.website"
@@ -41,7 +41,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
                     href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex items-center text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
+                    class="flex items-center text-zinc-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
                     aria-label="View source code on GitHub"
                   >
                     <svg
@@ -64,7 +64,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
                     href="https://github.com/sayedmahmoud266/powerfulwebsites.space/issues/new?template=add-website.md&title=Add%20Website%3A%20[Website%20Name]"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex items-center text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
+                    class="flex items-center text-zinc-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
                     aria-label="Submit a website to our collection"
                   >
                     <svg
@@ -87,7 +87,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
                     href="https://github.com/sayedmahmoud266"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex items-center text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
+                    class="flex items-center text-zinc-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
                     aria-label="View Sayed Mahmoud's GitHub profile"
                   >
                     <svg
@@ -119,7 +119,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
                     href="https://github.com/sayedmahmoud266/powerfulwebsites.space/blob/main/LICENSE"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex items-center text-gray-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
+                    class="flex items-center text-zinc-400 hover:text-orange-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-800 rounded px-1 py-1"
                     aria-label="View MIT License details"
                   >
                     <svg
@@ -144,8 +144,8 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
         <!-- Copyright -->
         <div class="border-t border-orange-700 mt-8 pt-8 text-center">
-          <p class="text-gray-500 text-sm">
-            © 2025 powerfulwebsites.space. Open source project coded by GitHub Copilot.
+          <p class="text-zinc-500 text-sm">
+            © 2025 powerfulwebsites.space. Open source project vibe coded by GitHub Copilot.
           </p>
         </div>
       </div>
