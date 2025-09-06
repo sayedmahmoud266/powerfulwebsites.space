@@ -69,20 +69,61 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
                 placeholder="Search tags..."
                 [value]="tagSearchTerm()"
                 (input)="onTagSearchChange($event)"
+                (focus)="setDropdownOpen(true)"
+                (blur)="onInputBlur()"
+                (keydown)="onKeyDown($event)"
                 class="input-field w-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               />
-              @if (filteredTags().length > 0 && tagSearchTerm()) {
+              <button
+                type="button"
+                (click)="toggleDropdown()"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded"
+                aria-label="Toggle tag dropdown"
+              >
+                <svg
+                  class="w-5 h-5 transition-transform"
+                  [class.rotate-180]="isDropdownOpen()"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              @if (isDropdownOpen() && filteredTags().length > 0) {
               <div
                 class="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-orange-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
               >
-                @for (tag of filteredTags(); track tag.id) { @if (!isTagSelected(tag)) {
+                @for (tag of filteredTags(); track tag.id; let i = $index) {
                 <button
-                  (click)="addTag(tag)"
-                  class="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-300 hover:text-orange-400 transition-colors"
+                  type="button"
+                  (click)="toggleTag(tag)"
+                  (mousedown)="$event.preventDefault()"
+                  (mouseenter)="setHighlightedIndex(i)"
+                  [class.bg-gray-700]="i === highlightedIndex()"
+                  class="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-300 hover:text-orange-400 transition-colors flex items-center justify-between"
                 >
-                  {{ tag.name }}
+                  <span>{{ tag.name }}</span>
+                  @if (isTagSelected(tag)) {
+                  <svg
+                    class="w-4 h-4 text-orange-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  }
                 </button>
-                } }
+                }
               </div>
               }
             </div>
@@ -257,6 +298,9 @@ export class SearchComponent implements OnInit {
   searchTerm = signal('');
   selectedTags = signal<Tag[]>([]);
   tagSearchTerm = signal('');
+  isDropdownOpen = signal(false);
+  highlightedIndex = signal(-1);
+  private isInitializing = signal(true);
 
   // Computed properties
   filteredTags = computed(() => {
@@ -292,15 +336,35 @@ export class SearchComponent implements OnInit {
   async ngOnInit() {
     await this.loadData();
 
-    // Handle route parameters for tag filtering
+    // Handle route parameters for restoring search state
     this.route.queryParams.subscribe((params) => {
-      if (params['tag']) {
+      this.isInitializing.set(true);
+
+      // Restore search term
+      if (params['search']) {
+        this.searchTerm.set(params['search']);
+      }
+
+      // Restore selected tags
+      if (params['tags']) {
+        const tagSlugs = Array.isArray(params['tags']) ? params['tags'] : [params['tags']];
+        const tagsToSelect = this.tags().filter((tag) => tagSlugs.includes(tag.slug));
+        this.selectedTags.set(tagsToSelect);
+      }
+
+      // Handle legacy single tag parameter for backwards compatibility
+      if (params['tag'] && !params['tags']) {
         const tagSlug = params['tag'];
         const tag = this.tags().find((t) => t.slug === tagSlug);
         if (tag && !this.selectedTags().find((t) => t.id === tag.id)) {
           this.selectedTags.update((tags) => [...tags, tag]);
         }
       }
+
+      // Allow route updates after initialization
+      setTimeout(() => {
+        this.isInitializing.set(false);
+      }, 0);
     });
   }
 
@@ -321,14 +385,100 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  private updateRouteParams() {
+    // Don't update route params during initialization to prevent loops
+    if (this.isInitializing()) return;
+
+    const queryParams: any = {};
+
+    // Add search term if present
+    if (this.searchTerm().trim()) {
+      queryParams.search = this.searchTerm().trim();
+    }
+
+    // Add selected tag slugs if any
+    const selectedTagSlugs = this.selectedTags().map((tag) => tag.slug);
+    if (selectedTagSlugs.length > 0) {
+      queryParams.tags = selectedTagSlugs;
+    }
+
+    // Update route without triggering navigation
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'replace',
+    });
+  }
+
   onSearchChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.searchTerm.set(target.value);
+    this.updateRouteParams();
   }
 
   onTagSearchChange(event: Event) {
     const target = event.target as HTMLInputElement;
     this.tagSearchTerm.set(target.value);
+    this.isDropdownOpen.set(true);
+    this.highlightedIndex.set(-1); // Reset highlight when searching
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (!this.isDropdownOpen()) return;
+
+    const filteredTags = this.filteredTags();
+    const currentIndex = this.highlightedIndex();
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        const nextIndex = currentIndex < filteredTags.length - 1 ? currentIndex + 1 : 0;
+        this.highlightedIndex.set(nextIndex);
+        this.scrollToHighlighted();
+        break;
+
+      case 'ArrowUp':
+        event.preventDefault();
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : filteredTags.length - 1;
+        this.highlightedIndex.set(prevIndex);
+        this.scrollToHighlighted();
+        break;
+
+      case 'Enter':
+        event.preventDefault();
+        if (currentIndex >= 0 && currentIndex < filteredTags.length) {
+          const selectedTag = filteredTags[currentIndex];
+          this.toggleTag(selectedTag);
+        }
+        break;
+
+      case 'Escape':
+        event.preventDefault();
+        this.isDropdownOpen.set(false);
+        this.highlightedIndex.set(-1);
+        break;
+    }
+  }
+
+  private scrollToHighlighted() {
+    // Scroll the highlighted item into view
+    setTimeout(() => {
+      const dropdown = document.querySelector('.absolute.top-full') as HTMLElement;
+      const highlightedButton = dropdown?.querySelector(
+        `button:nth-child(${this.highlightedIndex() + 1})`
+      ) as HTMLElement;
+
+      if (dropdown && highlightedButton) {
+        const dropdownRect = dropdown.getBoundingClientRect();
+        const buttonRect = highlightedButton.getBoundingClientRect();
+
+        if (buttonRect.bottom > dropdownRect.bottom) {
+          dropdown.scrollTop += buttonRect.bottom - dropdownRect.bottom;
+        } else if (buttonRect.top < dropdownRect.top) {
+          dropdown.scrollTop -= dropdownRect.top - buttonRect.top;
+        }
+      }
+    }, 0);
   }
 
   isTagSelected(tag: Tag): boolean {
@@ -338,21 +488,58 @@ export class SearchComponent implements OnInit {
   addTag(tag: Tag) {
     if (!this.isTagSelected(tag)) {
       this.selectedTags.update((tags) => [...tags, tag]);
+      this.updateRouteParams();
     }
-    this.tagSearchTerm.set('');
   }
 
   removeTag(tagToRemove: Tag) {
     this.selectedTags.update((tags) => tags.filter((tag) => tag.id !== tagToRemove.id));
+    this.updateRouteParams();
   }
 
   clearSearch() {
     this.searchTerm.set('');
+    this.updateRouteParams();
   }
 
   clearAllFilters() {
     this.searchTerm.set('');
     this.selectedTags.set([]);
+    this.updateRouteParams();
+  }
+
+  setDropdownOpen(isOpen: boolean) {
+    this.isDropdownOpen.set(isOpen);
+    if (!isOpen) {
+      this.highlightedIndex.set(-1);
+    }
+  }
+
+  setHighlightedIndex(index: number) {
+    this.highlightedIndex.set(index);
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen.update((open) => !open);
+    if (!this.isDropdownOpen()) {
+      this.highlightedIndex.set(-1);
+    }
+  }
+
+  onInputBlur() {
+    // Delay closing to allow for click events on dropdown items
+    setTimeout(() => {
+      this.isDropdownOpen.set(false);
+      this.highlightedIndex.set(-1);
+    }, 200);
+  }
+
+  toggleTag(tag: Tag) {
+    if (this.isTagSelected(tag)) {
+      this.removeTag(tag);
+    } else {
+      this.addTag(tag);
+    }
   }
 }
 
