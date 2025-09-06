@@ -16,7 +16,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
   selector: 'app-search',
   imports: [FormsModule, WebsiteCardComponent],
   template: `
-    <main class="container mx-auto px-4 py-8">
+    <main class="mx-auto px-4 py-8">
       <!-- Header -->
       <div class="text-center mb-8 lg:mb-12">
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">Discover Websites</h1>
@@ -73,7 +73,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
               />
               @if (filteredTags().length > 0 && tagSearchTerm()) {
               <div
-                class="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
+                class="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-orange-700 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto"
               >
                 @for (tag of filteredTags(); track tag.id) { @if (!isTagSelected(tag)) {
                 <button
@@ -156,7 +156,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
       </div>
 
       <!-- Results -->
-      <div class="max-w-6xl mx-auto">
+      <div class="mx-auto">
         @if (isLoading()) {
         <div
           class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"

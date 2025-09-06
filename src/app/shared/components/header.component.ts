@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
   selector: 'app-header',
   imports: [RouterModule],
   template: `
-    <header class="border-b border-gray-700 sticky top-0 z-50" style="background-color: #121212;">
-      <div class="container mx-auto px-4 py-4">
+    <header class="border-b border-orange-700 sticky top-0 z-50" style="background-color: #121212;">
+      <div class="mx-auto px-4 py-4">
         <nav class="flex items-center justify-between">
           <div class="flex items-center space-x-6">
             <a
@@ -51,7 +51,7 @@ import { RouterModule } from '@angular/router';
               href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
               target="_blank"
               rel="noopener noreferrer"
-              class="hidden sm:flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg border border-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+              class="hidden sm:flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-lg border border-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
               style="--tw-ring-offset-color: #121212;"
               aria-label="Star on GitHub"
             >
@@ -138,7 +138,7 @@ import { RouterModule } from '@angular/router';
 
         <!-- Mobile Navigation Menu -->
         @if (mobileMenuOpen()) {
-        <div class="md:hidden mt-4 pb-4 border-t border-gray-700 pt-4">
+        <div class="md:hidden mt-4 pb-4 border-t border-orange-700 pt-4">
           <div class="flex flex-col space-y-2">
             <a
               routerLink="/"

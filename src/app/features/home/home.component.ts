@@ -8,7 +8,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
   selector: 'app-home',
   imports: [RouterLink, WebsiteCardComponent],
   template: `
-    <main class="container mx-auto px-4 py-8">
+    <main class="mx-auto px-4 py-8">
       <!-- Hero Section -->
       <section class="text-center py-12 lg:py-16" aria-labelledby="hero-heading">
         <h1 id="hero-heading" class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-100 mb-6">
@@ -117,7 +117,7 @@ import { WebsiteCardComponent } from '../../shared/components/website-card.compo
       </section>
 
       <!-- Features Section -->
-      <section class="py-12 lg:py-16 border-t border-gray-700" aria-labelledby="features-heading">
+      <section class="py-12 lg:py-16 border-t border-orange-700" aria-labelledby="features-heading">
         <h2
           id="features-heading"
           class="text-2xl sm:text-3xl font-bold text-gray-100 text-center mb-12"

@@ -237,7 +237,7 @@ import { Website } from '../../shared/models/database.types';
             <a
               [routerLink]="['/search']"
               [queryParams]="{ tag: tag.slug }"
-              class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 hover:text-primary-400 border border-dark-600 hover:border-primary-400 transition-all focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
+              class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-dark-700 hover:bg-dark-600 text-gray-300 hover:text-primary-400 border border-orange-600 hover:border-primary-400 transition-all focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-dark-900"
               role="listitem"
               [attr.aria-label]="'View websites with ' + tag.name + ' technology'"
             >
