@@ -1,8 +1,16 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  inject,
+  OnInit,
+  computed,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { SupabaseService } from '../../core/services/supabase.service';
-import { Website } from '../../shared/models/database.types';
+import { MetadataService } from '../../core/services/metadata.service';
+import { Website, LinkMetadata } from '../../shared/models/database.types';
 
 @Component({
   selector: 'app-website-detail',
@@ -189,15 +197,15 @@ import { Website } from '../../shared/models/database.types';
             }
 
             <!-- Sources -->
-            @if (website()!.sources && website()!.sources!.length > 0) {
+            @if (sourcesWithMetadata() && sourcesWithMetadata().length > 0) {
             <div class="mb-6">
               <h3 class="text-lg font-semibold text-white mb-3">Sources</h3>
               <div class="space-y-3" role="list" aria-label="Website sources">
-                @for (source of website()!.sources; track source.added_at) {
+                @for (sourceWithMeta of sourcesWithMetadata(); track sourceWithMeta.added_at) {
                 <div class="bg-zinc-800 rounded-lg p-4 border border-zinc-700" role="listitem">
                   <div class="flex items-start space-x-3">
                     <div class="flex-shrink-0">
-                      @switch (source.type) { @case ('social_media') {
+                      @switch (sourceWithMeta.type) { @case ('social_media') {
                       <svg
                         class="w-5 h-5 text-blue-400"
                         fill="currentColor"
@@ -252,33 +260,97 @@ import { Website } from '../../shared/models/database.types';
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center justify-between mb-2">
                         <span class="text-sm font-medium text-white capitalize">{{
-                          source.type.replace('_', ' ')
+                          sourceWithMeta.type.replace('_', ' ')
                         }}</span>
-                        <time class="text-xs text-zinc-400" [attr.datetime]="source.added_at">
-                          {{ formatDate(source.added_at) }}
+                        <time
+                          class="text-xs text-zinc-400"
+                          [attr.datetime]="sourceWithMeta.added_at"
+                        >
+                          {{ formatDate(sourceWithMeta.added_at) }}
                         </time>
                       </div>
-                      <p class="text-sm text-zinc-300 mb-3">{{ source.description }}</p>
-                      @if (source.platform) {
+                      <p class="text-sm text-zinc-300 mb-3">{{ sourceWithMeta.description }}</p>
+                      @if (sourceWithMeta.platform) {
                       <span
                         class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-400/10 text-blue-400 border border-blue-400/20 mb-3"
                       >
-                        {{ source.platform }}
+                        {{ sourceWithMeta.platform }}
                       </span>
-                      } @if (source.url) {
-                      <!-- OG Card Style for Social Media and Links -->
+                      } @if (sourceWithMeta.url) {
+                      <!-- Rich Metadata Card or Fallback -->
+                      @if (sourceWithMeta.metadata?.success) {
+                      <!-- Rich metadata card -->
                       <a
-                        [href]="source.url"
+                        [href]="sourceWithMeta.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block border border-zinc-600 rounded-lg overflow-hidden bg-zinc-700/50 hover:bg-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-800"
+                        [attr.aria-label]="
+                          'View source: ' +
+                          (sourceWithMeta.metadata?.title || sourceWithMeta.description) +
+                          ' (opens in new tab)'
+                        "
+                      >
+                        <div class="flex">
+                          @if (sourceWithMeta.metadata?.image) {
+                          <div class="flex-shrink-0 w-24 h-20 bg-zinc-600">
+                            <img
+                              [src]="sourceWithMeta.metadata?.image"
+                              [alt]="sourceWithMeta.metadata?.title || 'Preview image'"
+                              class="w-full h-full object-cover"
+                              loading="lazy"
+                              (error)="$event.target.style.display = 'none'"
+                            />
+                          </div>
+                          }
+                          <div class="flex-1 p-3 min-w-0">
+                            @if (sourceWithMeta.metadata?.title) {
+                            <h4 class="text-sm font-semibold text-white mb-1 line-clamp-2">
+                              {{ sourceWithMeta.metadata?.title }}
+                            </h4>
+                            } @if (sourceWithMeta.metadata?.description) {
+                            <p class="text-xs text-zinc-300 mb-2 line-clamp-2">
+                              {{ sourceWithMeta.metadata?.description }}
+                            </p>
+                            }
+                            <div class="flex items-center justify-between">
+                              <p class="text-xs text-zinc-400 truncate">
+                                {{
+                                  sourceWithMeta.metadata?.site_name ||
+                                    getUrlDomain(sourceWithMeta.url)
+                                }}
+                              </p>
+                              <svg
+                                class="w-3 h-3 text-zinc-400 flex-shrink-0"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
+                                ></path>
+                                <path
+                                  d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
+                                ></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                      } @else {
+                      <!-- Fallback card with loading state -->
+                      <a
+                        [href]="sourceWithMeta.url"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="block border border-zinc-600 rounded-lg p-3 bg-zinc-700/50 hover:bg-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-800"
                         [attr.aria-label]="
-                          'View source: ' + source.description + ' (opens in new tab)'
+                          'View source: ' + sourceWithMeta.description + ' (opens in new tab)'
                         "
                       >
                         <div class="flex items-center space-x-3">
                           <div class="flex-shrink-0">
-                            @switch (source.platform) { @case ('twitter') {
+                            @switch (sourceWithMeta.platform) { @case ('twitter') {
                             <div
                               class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center"
                             >
@@ -343,12 +415,21 @@ import { Website } from '../../shared/models/database.types';
                             } }
                           </div>
                           <div class="flex-1 min-w-0">
+                            @if (sourceWithMeta.metadata === null) {
+                            <!-- Loading state -->
+                            <div class="animate-pulse">
+                              <div class="h-4 bg-zinc-600 rounded mb-1"></div>
+                              <div class="h-3 bg-zinc-600 rounded w-3/4"></div>
+                            </div>
+                            } @else {
+                            <!-- Failed to load metadata fallback -->
                             <p class="text-sm font-medium text-white truncate">
-                              @switch (source.platform) { @case ('twitter') { Twitter Post } @case
-                              ('instagram') { Instagram Post } @case ('linkedin') { LinkedIn Post }
-                              @default { {{ getUrlDomain(source.url) }} } }
+                              @switch (sourceWithMeta.platform) { @case ('twitter') { Twitter Post }
+                              @case ('instagram') { Instagram Post } @case ('linkedin') { LinkedIn
+                              Post } @default { {{ getUrlDomain(sourceWithMeta.url) }} } }
                             </p>
-                            <p class="text-xs text-zinc-400 truncate">{{ source.url }}</p>
+                            <p class="text-xs text-zinc-400 truncate">{{ sourceWithMeta.url }}</p>
+                            }
                           </div>
                           <div class="flex-shrink-0">
                             <svg
@@ -367,7 +448,7 @@ import { Website } from '../../shared/models/database.types';
                           </div>
                         </div>
                       </a>
-                      }
+                      }}
                     </div>
                   </div>
                 </div>
@@ -489,9 +570,23 @@ export class WebsiteDetailComponent implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
   private supabaseService = inject(SupabaseService);
+  private metadataService = inject(MetadataService);
 
   website = signal<Website | null>(null);
   isLoading = signal(true);
+  sourceMetadata = signal<Map<string, LinkMetadata>>(new Map());
+
+  // Computed signal for sources with their metadata
+  protected sourcesWithMetadata = computed(() => {
+    const website = this.website();
+    const metadata = this.sourceMetadata();
+    if (!website?.sources) return [];
+
+    return website.sources.map((source) => ({
+      ...source,
+      metadata: source.url ? metadata.get(source.url) : null,
+    }));
+  });
 
   async ngOnInit() {
     const param =
@@ -514,11 +609,38 @@ export class WebsiteDetailComponent implements OnInit {
       }
 
       this.website.set(websiteData);
+
+      // Fetch metadata for sources
+      if (websiteData?.sources) {
+        this.fetchSourcesMetadata(websiteData.sources);
+      }
     } catch (error) {
       console.error('Error loading website:', error);
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  private fetchSourcesMetadata(sources: any[]) {
+    const urlsToFetch = sources.filter((source) => source.url).map((source) => source.url);
+
+    if (urlsToFetch.length === 0) return;
+
+    // Fetch metadata for each URL
+    urlsToFetch.forEach((url) => {
+      this.metadataService.fetchLinkMetadata(url).subscribe({
+        next: (metadata) => {
+          this.sourceMetadata.update((current) => {
+            const updated = new Map(current);
+            updated.set(url, metadata);
+            return updated;
+          });
+        },
+        error: (error) => {
+          console.warn('Failed to fetch metadata for', url, error);
+        },
+      });
+    });
   }
 
   goBack() {

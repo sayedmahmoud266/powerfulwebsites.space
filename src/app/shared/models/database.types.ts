@@ -13,6 +13,15 @@ export interface Author {
   role?: string;
 }
 
+export interface LinkMetadata {
+  title?: string;
+  description?: string;
+  image?: string;
+  site_name?: string;
+  url?: string;
+  success: boolean;
+}
+
 export interface Website {
   id: number;
   name: string;
