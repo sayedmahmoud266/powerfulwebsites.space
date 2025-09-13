@@ -5,9 +5,11 @@ import {
   computed,
   inject,
   OnInit,
+  DestroyRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { Website, Tag } from '../../shared/models/database.types';
 import { WebsiteCardComponent } from '../../shared/components/website-card.component';
@@ -290,6 +292,7 @@ export class SearchComponent implements OnInit {
   private supabaseService = inject(SupabaseService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   websites = signal<Website[]>([]);
   tags = signal<Tag[]>([]);
@@ -337,7 +340,7 @@ export class SearchComponent implements OnInit {
     await this.loadData();
 
     // Handle route parameters for restoring search state
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.isInitializing.set(true);
 
       // Restore search term

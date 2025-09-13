@@ -11,6 +11,11 @@ export const routes: Routes = [
       import('./features/search/search.component').then((m) => m.SearchComponent),
   },
   {
+    path: 'visit/:website',
+    loadComponent: () => import('./features/visit/visit.component').then((m) => m.VisitComponent),
+    data: { prerender: false },
+  },
+  {
     path: 'website/:name',
     loadComponent: () =>
       import('./features/website-detail/website-detail.component').then(

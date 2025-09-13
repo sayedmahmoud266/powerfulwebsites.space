@@ -75,7 +75,7 @@ import { Website } from '../models/database.types';
         <!-- Actions -->
         <div class="flex items-center justify-between pt-2 border-t border-zinc-700">
           <a
-            [href]="website().url"
+            [routerLink]="['/visit', encodeWebsiteName(website().name)]"
             target="_blank"
             rel="noopener"
             class="inline-flex items-center px-3 py-2 text-sm text-white bg-orange-500 hover:bg-orange-600 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-800"

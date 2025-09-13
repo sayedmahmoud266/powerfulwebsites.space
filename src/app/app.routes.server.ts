@@ -10,6 +10,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
+    path: 'visit/**',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'website/**',
     renderMode: RenderMode.Server,
   },

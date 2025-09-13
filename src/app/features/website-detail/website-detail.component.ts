@@ -5,9 +5,11 @@ import {
   inject,
   OnInit,
   computed,
+  DestroyRef,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { MetadataService } from '../../core/services/metadata.service';
 import { Website, LinkMetadata } from '../../shared/models/database.types';
@@ -487,7 +489,7 @@ import { Website, LinkMetadata } from '../../shared/models/database.types';
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-zinc-700">
               <a
-                [href]="website()!.url"
+                [routerLink]="['/visit', encodeWebsiteName(website()!.name)]"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center justify-center px-4 py-2 text-sm text-white bg-orange-500 hover:bg-orange-600 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-800"
@@ -569,6 +571,7 @@ export class WebsiteDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private location = inject(Location);
+  private destroyRef = inject(DestroyRef);
   private supabaseService = inject(SupabaseService);
   private metadataService = inject(MetadataService);
 
@@ -628,18 +631,21 @@ export class WebsiteDetailComponent implements OnInit {
 
     // Fetch metadata for each URL
     urlsToFetch.forEach((url) => {
-      this.metadataService.fetchLinkMetadata(url).subscribe({
-        next: (metadata) => {
-          this.sourceMetadata.update((current) => {
-            const updated = new Map(current);
-            updated.set(url, metadata);
-            return updated;
-          });
-        },
-        error: (error) => {
-          console.warn('Failed to fetch metadata for', url, error);
-        },
-      });
+      this.metadataService
+        .fetchLinkMetadata(url)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (metadata) => {
+            this.sourceMetadata.update((current) => {
+              const updated = new Map(current);
+              updated.set(url, metadata);
+              return updated;
+            });
+          },
+          error: (error) => {
+            console.warn('Failed to fetch metadata for', url, error);
+          },
+        });
     });
   }
 
@@ -662,6 +668,10 @@ export class WebsiteDetailComponent implements OnInit {
     } catch {
       return url;
     }
+  }
+
+  encodeWebsiteName(name: string): string {
+    return encodeURIComponent(name);
   }
 }
 
