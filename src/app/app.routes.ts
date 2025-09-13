@@ -21,7 +21,6 @@ export const routes: Routes = [
       import('./features/website-detail/website-detail.component').then(
         (m) => m.WebsiteDetailComponent
       ),
-    data: { prerender: false },
   },
   // Fallback for old ID-based routes
   {
@@ -30,7 +29,6 @@ export const routes: Routes = [
       import('./features/website-detail/website-detail.component').then(
         (m) => m.WebsiteDetailComponent
       ),
-    data: { prerender: false },
   },
   {
     path: '**',

@@ -14,6 +14,7 @@
     "release": "npm run release:pre",
     "serve:ssr:powerfulwebsites": "node dist/powerfulwebsites/server/server.mjs"
   },
+  "type": "module",
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,

@@ -172,6 +172,22 @@ export class SupabaseService {
     }
   }
 
+  async getWebsiteNames(): Promise<string[]> {
+    try {
+      const { data, error } = await this.supabase
+        .from('websites')
+        .select('name')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return data?.map((website) => website.name) || [];
+    } catch (error) {
+      console.error('Error fetching website names:', error);
+      return [];
+    }
+  }
+
   // Tag methods
   async getTags(): Promise<Tag[]> {
     try {
