@@ -188,6 +188,221 @@ import { Website } from '../../shared/models/database.types';
             </div>
             }
 
+            <!-- Sources -->
+            @if (website()!.sources && website()!.sources!.length > 0) {
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-white mb-3">Sources</h3>
+              <div class="space-y-3" role="list" aria-label="Website sources">
+                @for (source of website()!.sources; track source.added_at) {
+                <div class="bg-zinc-800 rounded-lg p-4 border border-zinc-700" role="listitem">
+                  <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                      @switch (source.type) { @case ('social_media') {
+                      <svg
+                        class="w-5 h-5 text-blue-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+                        ></path>
+                      </svg>
+                      } @case ('scraper') {
+                      <svg
+                        class="w-5 h-5 text-green-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      } @case ('suggestion') {
+                      <svg
+                        class="w-5 h-5 text-purple-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      } @default {
+                      <svg
+                        class="w-5 h-5 text-zinc-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      } }
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-white capitalize">{{
+                          source.type.replace('_', ' ')
+                        }}</span>
+                        <time class="text-xs text-zinc-400" [attr.datetime]="source.added_at">
+                          {{ formatDate(source.added_at) }}
+                        </time>
+                      </div>
+                      <p class="text-sm text-zinc-300 mb-3">{{ source.description }}</p>
+                      @if (source.platform) {
+                      <span
+                        class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-400/10 text-blue-400 border border-blue-400/20 mb-3"
+                      >
+                        {{ source.platform }}
+                      </span>
+                      } @if (source.url) {
+                      <!-- OG Card Style for Social Media and Links -->
+                      <a
+                        [href]="source.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block border border-zinc-600 rounded-lg p-3 bg-zinc-700/50 hover:bg-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-800"
+                        [attr.aria-label]="
+                          'View source: ' + source.description + ' (opens in new tab)'
+                        "
+                      >
+                        <div class="flex items-center space-x-3">
+                          <div class="flex-shrink-0">
+                            @switch (source.platform) { @case ('twitter') {
+                            <div
+                              class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center"
+                            >
+                              <svg
+                                class="w-4 h-4 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+                                ></path>
+                              </svg>
+                            </div>
+                            } @case ('instagram') {
+                            <div
+                              class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-500 rounded flex items-center justify-center"
+                            >
+                              <svg
+                                class="w-4 h-4 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M12.017 0C8.396 0 7.989.013 7.041.048 6.094.084 5.52.199 5.012.374a6.063 6.063 0 00-2.189 1.425A6.063 6.063 0 00.374 5.012C.199 5.52.084 6.094.048 7.041.013 7.989 0 8.396 0 12.017s.013 4.028.048 4.976c.036.947.151 1.521.326 2.029a6.063 6.063 0 001.425 2.189 6.063 6.063 0 002.189 1.425c.508.175 1.082.29 2.029.326.948.035 1.355.048 4.976.048s4.028-.013 4.976-.048c.947-.036 1.521-.151 2.029-.326a6.063 6.063 0 002.189-1.425 6.063 6.063 0 001.425-2.189c.175-.508.29-1.082.326-2.029.035-.948.048-1.355.048-4.976s-.013-4.028-.048-4.976c-.036-.947-.151-1.521-.326-2.029a6.063 6.063 0 00-1.425-2.189A6.063 6.063 0 0018.988.374c-.508-.175-1.082-.29-2.029-.326C15.011.013 14.604 0 12.017 0zm0 2.164c3.53 0 3.94.013 5.33.048.85.037 1.31.171 1.617.284.407.158.697.346.999.648.302.302.49.592.648.999.113.307.247.767.284 1.617.035 1.39.048 1.8.048 5.33s-.013 3.94-.048 5.33c-.037.85-.171 1.31-.284 1.617-.158.407-.346.697-.648.999-.302.302-.592.49-.999.648-.307.113-.767.247-1.617.284-1.39.035-1.8.048-5.33.048s-3.94-.013-5.33-.048c-.85-.037-1.31-.171-1.617-.284a2.678 2.678 0 01-.999-.648 2.678 2.678 0 01-.648-.999c-.113-.307-.247-.767-.284-1.617-.035-1.39-.048-1.8-.048-5.33s.013-3.94.048-5.33c.037-.85.171-1.31.284-1.617.158-.407.346-.697.648-.999.302-.302.592-.49.999-.648.307-.113.767-.247 1.617-.284 1.39-.035 1.8-.048 5.33-.048zm0 3.68a6.173 6.173 0 100 12.346 6.173 6.173 0 000-12.346zm0 10.182a4.009 4.009 0 110-8.018 4.009 4.009 0 010 8.018zm7.846-10.405a1.441 1.441 0 11-2.883 0 1.441 1.441 0 012.883 0z"
+                                ></path>
+                              </svg>
+                            </div>
+                            } @case ('linkedin') {
+                            <div
+                              class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center"
+                            >
+                              <svg
+                                class="w-4 h-4 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                                ></path>
+                              </svg>
+                            </div>
+                            } @default {
+                            <div
+                              class="w-8 h-8 bg-zinc-600 rounded flex items-center justify-center"
+                            >
+                              <svg
+                                class="w-4 h-4 text-zinc-300"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                                  clip-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </div>
+                            } }
+                          </div>
+                          <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-white truncate">
+                              @switch (source.platform) { @case ('twitter') { Twitter Post } @case
+                              ('instagram') { Instagram Post } @case ('linkedin') { LinkedIn Post }
+                              @default { {{ getUrlDomain(source.url) }} } }
+                            </p>
+                            <p class="text-xs text-zinc-400 truncate">{{ source.url }}</p>
+                          </div>
+                          <div class="flex-shrink-0">
+                            <svg
+                              class="w-4 h-4 text-zinc-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
+                              ></path>
+                              <path
+                                d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
+                              ></path>
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                      }
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+            }
+
+            <!-- Author -->
+            @if (website()!.author) {
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-white mb-3">Added By</h3>
+              <div class="flex items-center space-x-2">
+                <a
+                  [href]="website()!.author!.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-orange-400 hover:text-orange-300 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-zinc-900 rounded"
+                  [attr.aria-label]="
+                    'Visit ' + website()!.author!.display_name + ' profile (opens in new tab)'
+                  "
+                >
+                  {{ website()!.author!.display_name }}
+                </a>
+                @if (website()!.author!.role) {
+                <span
+                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-400/10 text-orange-400 border border-orange-400/20"
+                >
+                  {{ website()!.author!.role }}
+                </span>
+                }
+              </div>
+            </div>
+            }
+
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-zinc-700">
               <a
@@ -317,6 +532,14 @@ export class WebsiteDetailComponent implements OnInit {
       month: 'long',
       day: 'numeric',
     });
+  }
+
+  getUrlDomain(url: string): string {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return url;
+    }
   }
 }
 

@@ -92,13 +92,23 @@ import { Website } from '../models/database.types';
             Visit
           </a>
 
-          <time
-            class="text-xs text-zinc-500"
-            [attr.datetime]="website().created_at"
-            [attr.title]="'Added on ' + formatDate(website().created_at)"
-          >
-            {{ formatDate(website().created_at) }}
-          </time>
+          <div class="text-right">
+            <time
+              class="text-xs text-zinc-500 block"
+              [attr.datetime]="website().created_at"
+              [attr.title]="'Added on ' + formatDate(website().created_at)"
+            >
+              {{ formatDate(website().created_at) }}
+            </time>
+            @if (website().author) {
+            <div
+              class="text-xs text-zinc-500 mt-1"
+              [attr.title]="'Added by ' + website().author!.display_name"
+            >
+              by {{ website().author!.display_name }}
+            </div>
+            }
+          </div>
         </div>
       </div>
     </article>
