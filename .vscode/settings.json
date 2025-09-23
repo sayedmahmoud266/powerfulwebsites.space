@@ -21,5 +21,8 @@
     "class:\\s*?[\"'`]([^\"'`]*).*?[\"'`]",
     "className:\\s*?[\"'`]([^\"'`]*).*?[\"'`]",
     "\\bclass\\s*=\\s*[\"']([^\"']*)[\"']"
-  ]
+  ],
+  "[xml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

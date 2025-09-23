@@ -1,74 +1,34 @@
 {
-  "name": "powerfulwebsites.space",
-  "version": "0.0.1-dev.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "release:pre": "npm version prerelease --preid=dev",
-    "release:patch": "npm version patch",
-    "release:minor": "npm version minor",
-    "release:major": "npm version major",
-    "release": "npm run release:pre",
-    "serve:ssr:powerfulwebsites": "node dist/powerfulwebsites/server/server.mjs"
-  },
+  "name": "vite-react-typescript-starter",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "private": false,
-  "author": {
-    "name": "Sayed Mahmoud Sayed",
-    "email": "sayedmsayed266+pwrflsites@gmail.com",
-    "url": "https://sayedmahmoud266.website"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sayedmahmoud266/powerfulwebsites.space"
-  },
-  "license": "MIT",
   "dependencies": {
-    "@angular/common": "^20.2.0",
-    "@angular/compiler": "^20.2.0",
-    "@angular/core": "^20.2.0",
-    "@angular/forms": "^20.2.0",
-    "@angular/platform-browser": "^20.2.0",
-    "@angular/platform-server": "^20.2.0",
-    "@angular/router": "^20.2.0",
-    "@angular/ssr": "^20.2.1",
-    "@supabase/supabase-js": "^2.57.0",
-    "@tailwindcss/postcss": "^4.1.12",
-    "autoprefixer": "^10.4.21",
-    "express": "^5.1.0",
-    "postcss": "^8.5.6",
-    "rxjs": "~7.8.0",
-    "tailwindcss": "^4.1.12",
-    "tslib": "^2.3.0"
+    "@supabase/supabase-js": "^2.57.4",
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@angular/build": "^20.2.1",
-    "@angular/cli": "^20.2.1",
-    "@angular/compiler-cli": "^20.2.0",
-    "@types/express": "^5.0.1",
-    "@types/jasmine": "~5.1.0",
-    "@types/node": "^20.17.19",
-    "jasmine-core": "~5.9.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.9.2"
+    "@eslint/js": "^9.9.1",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
   }
 }
