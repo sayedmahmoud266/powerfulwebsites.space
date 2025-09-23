@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 interface Particle {
   x: number;
@@ -19,7 +19,7 @@ export const ParticleBackground: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const resizeCanvas = () => {
@@ -28,7 +28,7 @@ export const ParticleBackground: React.FC = () => {
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     // Create particles
     const createParticles = () => {
@@ -43,8 +43,7 @@ export const ParticleBackground: React.FC = () => {
           vy: (Math.random() - 0.5) * 0.5,
           size: Math.random() * 2 + 1,
           opacity: Math.random() * 0.6 + 0.2,
-          color: Math.random() > 0.7 ? '#FFBF00' : '#FFFFFF',
-          color: Math.random() > 0.7 ? '#FB923C' : '#FFFFFF',
+          color: Math.random() > 0.7 ? "#FB923C" : "#FFFFFF",
         });
       }
       particlesRef.current = particles;
@@ -64,13 +63,13 @@ export const ParticleBackground: React.FC = () => {
         canvas.height / 2,
         Math.max(canvas.width, canvas.height)
       );
-      
-      gradient.addColorStop(0, 'rgba(255, 191, 0, 0.02)');
-      gradient.addColorStop(0.5, 'rgba(204, 85, 0, 0.01)');
-      gradient.addColorStop(0, 'rgba(251, 146, 60, 0.02)');
-      gradient.addColorStop(0.5, 'rgba(234, 88, 12, 0.01)');
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      
+
+      gradient.addColorStop(0, "rgba(255, 191, 0, 0.02)");
+      gradient.addColorStop(0.5, "rgba(204, 85, 0, 0.01)");
+      gradient.addColorStop(0, "rgba(251, 146, 60, 0.02)");
+      gradient.addColorStop(0.5, "rgba(234, 88, 12, 0.01)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -87,7 +86,8 @@ export const ParticleBackground: React.FC = () => {
         if (particle.y > canvas.height) particle.y = 0;
 
         // Subtle opacity animation
-        particle.opacity += Math.sin(Date.now() * 0.001 + particle.x * 0.01) * 0.002;
+        particle.opacity +=
+          Math.sin(Date.now() * 0.001 + particle.x * 0.01) * 0.002;
         particle.opacity = Math.max(0.1, Math.min(0.8, particle.opacity));
 
         // Draw particle
@@ -100,10 +100,10 @@ export const ParticleBackground: React.FC = () => {
         ctx.restore();
 
         // Add subtle glow for amber particles
-        if (particle.color === '#FB923C') {
+        if (particle.color === "#FB923C") {
           ctx.save();
           ctx.globalAlpha = particle.opacity * 0.3;
-          ctx.fillStyle = '#FB923C';
+          ctx.fillStyle = "#FB923C";
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
           ctx.fill();
@@ -117,7 +117,7 @@ export const ParticleBackground: React.FC = () => {
     animate();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
@@ -128,7 +128,9 @@ export const ParticleBackground: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 100%)' }}
+      style={{
+        background: "linear-gradient(135deg, #000000 0%, #0a0a0a 100%)",
+      }}
       aria-hidden="true"
     />
   );
