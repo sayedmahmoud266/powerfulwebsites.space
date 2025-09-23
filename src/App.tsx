@@ -99,14 +99,34 @@ function App() {
           style={{ position: "sticky", zIndex: 50 }}
         >
           <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center space-x-3 min-w-0 flex-shrink">
+            <div className="flex items-center justify-between gap-4 w-full">
+              {/* Logo - Far Left */}
+              <div className="flex items-center space-x-3 min-w-0 flex-shrink-0">
                 <Zap className="w-6 h-6 text-orange-400 flex-shrink-0" />
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-400 via-orange-300 to-orange-400 bg-clip-text text-transparent font-bungee truncate">
+                <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-orange-400 via-orange-300 to-orange-400 bg-clip-text text-transparent font-bungee truncate">
                   POWERFULWEBSITES.SPACE
                 </h1>
               </div>
-              <div className="flex items-center space-x-4">
+
+              {/* Search - Center */}
+              <div className="flex-1 max-w-md mx-4">
+                <SearchBar onSearch={handleSearch} className="w-full" />
+              </div>
+
+              {/* Badges - Far Right */}
+              <div className="flex items-center space-x-3 flex-shrink-0">
+                <a
+                  href="https://buymeacoffee.com/sayedmahmoud266"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-opacity hover:opacity-80"
+                >
+                  <img
+                    src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"
+                    alt="Buy Me A Coffee"
+                    className="h-7"
+                  />
+                </a>
                 <a
                   href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
                   target="_blank"
@@ -114,14 +134,11 @@ function App() {
                   className="transition-opacity hover:opacity-80"
                 >
                   <img
-                    src="https://img.shields.io/github/stars/sayedmahmoud266/powerfulwebsites.space?style=for-the-badge"
+                    src="https://img.shields.io/github/stars/sayedmahmoud266/powerfulwebsites.space?style=for-the-badge&logo=github&logoColor=white&color=orange"
                     alt="GitHub stars"
                     className="h-7"
                   />
                 </a>
-                <div className="flex-1 max-w-sm">
-                  <SearchBar onSearch={handleSearch} className="w-full" />
-                </div>
               </div>
             </div>
           </div>
@@ -225,7 +242,18 @@ function App() {
                 © 2025 powerfulwebsites.space - A curated collection of powerful
                 web tools
               </div>
-              <div className="flex items-center space-x-6">
+              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
+                <div className="text-gray-400 text-sm">
+                  Made with ❤️ by{' '}
+                  <a
+                    href="https://sayedmahmoud266.website"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-orange-400 hover:text-orange-300 transition-colors duration-200"
+                  >
+                    sayedmahmoud266
+                  </a>
+                </div>
                 <a
                   href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
                   target="_blank"
