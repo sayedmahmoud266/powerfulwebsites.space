@@ -1,8 +1,0 @@
-{
-  "overrides": [
-    {
-      "files": "*.md",
-      "excludeFiles": "*.md"
-    }
-  ]
-}
