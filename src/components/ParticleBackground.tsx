@@ -127,9 +127,10 @@ export const ParticleBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none"
       style={{
         background: "linear-gradient(135deg, #000000 0%, #0a0a0a 100%)",
+        zIndex: 1,
       }}
       aria-hidden="true"
     />
