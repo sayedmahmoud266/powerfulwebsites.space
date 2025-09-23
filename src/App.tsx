@@ -102,12 +102,26 @@ function App() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center space-x-3 min-w-0 flex-shrink">
                 <Zap className="w-6 h-6 text-orange-400 flex-shrink-0" />
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-400 via-red-400 to-orange-500 bg-clip-text text-transparent font-bungee truncate">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-400 via-orange-300 to-orange-400 bg-clip-text text-transparent font-bungee truncate">
                   POWERFULWEBSITES.SPACE
                 </h1>
               </div>
-              <div className="flex-1 max-w-sm">
-                <SearchBar onSearch={handleSearch} className="w-full" />
+              <div className="flex items-center space-x-4">
+                <a
+                  href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-opacity hover:opacity-80"
+                >
+                  <img
+                    src="https://img.shields.io/github/stars/sayedmahmoud266/powerfulwebsites.space?style=for-the-badge"
+                    alt="GitHub stars"
+                    className="h-7"
+                  />
+                </a>
+                <div className="flex-1 max-w-sm">
+                  <SearchBar onSearch={handleSearch} className="w-full" />
+                </div>
               </div>
             </div>
           </div>
@@ -213,7 +227,7 @@ function App() {
               </div>
               <div className="flex items-center space-x-6">
                 <a
-                  href="https://github.com/powerfulwebsites/powerfulwebsites.space"
+                  href="https://github.com/sayedmahmoud266/powerfulwebsites.space"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-2 text-gray-400 hover:text-orange-400 transition-colors duration-200"
