@@ -43,4 +43,7 @@ echo "Created tag: $version_tag"
 git push origin main
 git push origin $version_tag
 
+# 8. Create GitHub release using gh CLI
+gh release create $version_tag --title "$version_tag" --notes "Release $version_tag"
+
 echo "Release complete!"
