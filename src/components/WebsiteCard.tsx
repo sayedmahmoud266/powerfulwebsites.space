@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { ExternalLink, Expand, Calendar, User } from 'lucide-react';
-import { CloudinaryPresets, generateCloudinarySrcSet } from '../utils/cloudinary';
-import { useViewport } from '../hooks/useViewport';
+import React, { useState } from "react";
+import { ExternalLink, Expand, Calendar, User } from "lucide-react";
+import {
+  CloudinaryPresets,
+  generateCloudinarySrcSet,
+} from "../utils/cloudinary";
+import { useViewport } from "../hooks/useViewport";
 
 export interface Website {
   name: string;
@@ -31,13 +34,20 @@ interface WebsiteCardProps {
   onTagClick: (tag: string) => void;
 }
 
-export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onTagClick }) => {
+export const WebsiteCard: React.FC<WebsiteCardProps> = ({
+  website,
+  onExpand,
+  onTagClick,
+}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const { isMobile } = useViewport();
 
   // Function to extract dominant colors from image data
-  const extractDominantColors = (imageData: Uint8ClampedArray, colorCount: number): string[] => {
+  const extractDominantColors = (
+    imageData: Uint8ClampedArray,
+    colorCount: number
+  ): string[] => {
     const colorMap = new Map<string, number>();
 
     // Sample pixels more densely for better color detection
@@ -67,7 +77,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
       .sort((a, b) => b[1] - a[1])
       .slice(0, colorCount)
       .map(([colorKey]) => {
-        const [r, g, b] = colorKey.split(',').map(Number);
+        const [r, g, b] = colorKey.split(",").map(Number);
         return `rgba(${r}, ${g}, ${b}, 0.6)`;
       });
 
@@ -75,10 +85,10 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest('[data-prevent-card-click]')) {
+    if ((e.target as HTMLElement).closest("[data-prevent-card-click]")) {
       return;
     }
-    window.open(website.url, '_blank', 'noopener,noreferrer');
+    window.open(website.url + "?ref=powerfulwebsites.space", "_blank");
   };
 
   const handleExpandClick = (e: React.MouseEvent) => {
@@ -99,7 +109,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
       tabIndex={0}
       aria-label={`Visit ${website.name}`}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           handleCardClick(e as any);
         }
@@ -111,17 +121,24 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
           // Screenshot available - use full cover
           <>
             <img
-              src={isMobile 
-                ? CloudinaryPresets.mobileCardScreenshot(website.screenshot_url)
-                : CloudinaryPresets.cardScreenshot(website.screenshot_url)
+              src={
+                isMobile
+                  ? CloudinaryPresets.mobileCardScreenshot(
+                      website.screenshot_url
+                    )
+                  : CloudinaryPresets.cardScreenshot(website.screenshot_url)
               }
-              srcSet={generateCloudinarySrcSet(website.screenshot_url, isMobile ? 320 : 400, {
-                crop: 'limit'
-              })}
+              srcSet={generateCloudinarySrcSet(
+                website.screenshot_url,
+                isMobile ? 320 : 400,
+                {
+                  crop: "limit",
+                }
+              )}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               alt={`${website.name} screenshot`}
               className={`w-full h-full object-contain transition-all duration-500 group-hover:scale-110 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
+                imageLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
@@ -149,7 +166,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
                     rgba(80, 80, 80, 0.1) 40%,
                     rgba(0, 0, 0, 0.8) 80%
                   )
-                `
+                `,
               }}
             />
 
@@ -158,7 +175,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
               className="absolute inset-0 opacity-20"
               style={{
                 background: `radial-gradient(circle at center, transparent 20%, rgba(0, 0, 0, 0.4) 100%)`,
-                mixBlendMode: 'multiply' as const
+                mixBlendMode: "multiply" as const,
               }}
             />
 
@@ -168,7 +185,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
                 src={CloudinaryPresets.cardLogo(website.icon_url)}
                 srcSet={generateCloudinarySrcSet(website.icon_url, 96, {
                   height: 96,
-                  crop: 'fit'
+                  crop: "fit",
                 })}
                 sizes="96px"
                 alt={`${website.name} logo`}
@@ -178,51 +195,64 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
                   // Try to extract colors from the logo for dynamic gradient
                   try {
                     const img = e.currentTarget;
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+
                     // Use a smaller canvas for better performance
                     const maxSize = 100;
-                    const scale = Math.min(maxSize / img.naturalWidth, maxSize / img.naturalHeight);
+                    const scale = Math.min(
+                      maxSize / img.naturalWidth,
+                      maxSize / img.naturalHeight
+                    );
                     canvas.width = img.naturalWidth * scale;
                     canvas.height = img.naturalHeight * scale;
 
                     if (ctx) {
                       // Enable better image quality
                       ctx.imageSmoothingEnabled = true;
-                      ctx.imageSmoothingQuality = 'high';
+                      ctx.imageSmoothingQuality = "high";
                       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
                       // Get image data for color analysis
-                      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                      const imageData = ctx.getImageData(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                      );
                       const colors = extractDominantColors(imageData.data, 2);
-                      
+
                       if (colors.length > 0) {
                         // Update gradient with extracted colors
-                        const gradientDiv = img.parentElement?.parentElement?.parentElement?.querySelector('.dynamic-gradient') as HTMLElement;
+                        const gradientDiv =
+                          img.parentElement?.parentElement?.parentElement?.querySelector(
+                            ".dynamic-gradient"
+                          ) as HTMLElement;
                         if (gradientDiv) {
                           const primaryColor = colors[0];
                           const secondaryColor = colors[1] || colors[0];
-                          
+
                           // Create a more vibrant gradient using the extracted colors
                           gradientDiv.style.background = `
                             radial-gradient(ellipse at 30% 30%,
-                              ${primaryColor.replace('0.6', '0.4')} 0%,
-                              ${secondaryColor.replace('0.6', '0.2')} 30%,
+                              ${primaryColor.replace("0.6", "0.4")} 0%,
+                              ${secondaryColor.replace("0.6", "0.2")} 30%,
                               rgba(0, 0, 0, 0.8) 70%
                             ),
                             radial-gradient(ellipse at 70% 70%,
-                              ${primaryColor.replace('0.6', '0.3')} 0%,
-                              ${secondaryColor.replace('0.6', '0.15')} 40%,
+                              ${primaryColor.replace("0.6", "0.3")} 0%,
+                              ${secondaryColor.replace("0.6", "0.15")} 40%,
                               rgba(0, 0, 0, 0.9) 80%
                             )
                           `;
-                          gradientDiv.style.opacity = '0.6';
+                          gradientDiv.style.opacity = "0.6";
                         }
                       }
                     }
                   } catch (error) {
-                    console.log('Could not extract logo colors, using default gradient');
+                    console.log(
+                      "Could not extract logo colors, using default gradient"
+                    );
                   }
                 }}
                 onError={() => setImageError(true)}
@@ -241,7 +271,7 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
         )}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
+
         <button
           onClick={handleExpandClick}
           className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-orange-400/20 hover:text-orange-400"
@@ -291,7 +321,9 @@ export const WebsiteCard: React.FC<WebsiteCardProps> = ({ website, onExpand, onT
           </div>
           <div className="flex items-center space-x-2">
             <User className="w-3 h-3" />
-            <span className="truncate max-w-20">{website.added_by.user_alias}</span>
+            <span className="truncate max-w-20">
+              {website.added_by.user_alias}
+            </span>
           </div>
         </div>
       </div>

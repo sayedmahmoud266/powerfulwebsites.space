@@ -1,7 +1,16 @@
-import React, { useEffect } from 'react';
-import { X, ExternalLink, Calendar, User, Link as LinkIcon } from 'lucide-react';
-import { Website } from './WebsiteCard';
-import { CloudinaryPresets, generateCloudinarySrcSet } from '../utils/cloudinary';
+import React, { useEffect } from "react";
+import {
+  X,
+  ExternalLink,
+  Calendar,
+  User,
+  Link as LinkIcon,
+} from "lucide-react";
+import { Website } from "./WebsiteCard";
+import {
+  CloudinaryPresets,
+  generateCloudinarySrcSet,
+} from "../utils/cloudinary";
 
 interface WebsiteModalProps {
   website: Website;
@@ -10,22 +19,27 @@ interface WebsiteModalProps {
   onTagClick: (tag: string) => void;
 }
 
-export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onClose, onTagClick }) => {
+export const WebsiteModal: React.FC<WebsiteModalProps> = ({
+  website,
+  isOpen,
+  onClose,
+  onTagClick,
+}) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 
@@ -88,7 +102,7 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                         rgba(0, 0, 0, 0.7) 50%,
                         rgba(0, 0, 0, 1) 100%
                       )
-                    `
+                    `,
                   }}
                 />
 
@@ -104,7 +118,7 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                       rgba(0, 0, 0, 0.9) 240deg,
                       rgba(251, 146, 60, 0.5) 300deg,
                       rgba(234, 88, 12, 0.7) 360deg
-                    )`
+                    )`,
                   }}
                 />
 
@@ -113,13 +127,13 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                   <img
                     src={CloudinaryPresets.modalImage(displayImage)}
                     srcSet={generateCloudinarySrcSet(displayImage, 800, {
-                      crop: 'limit'
+                      crop: "limit",
                     })}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 800px"
                     alt={`${website.name} screenshot`}
                     className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-gray-600/30 backdrop-blur-sm"
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
@@ -138,7 +152,7 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                       radial-gradient(circle at 80% 80%, rgba(234, 88, 12, 0.3) 1px, transparent 1px),
                       radial-gradient(circle at 40% 60%, rgba(251, 146, 60, 0.5) 1px, transparent 1px)
                     `,
-                    backgroundSize: '50px 50px, 30px 30px, 40px 40px'
+                    backgroundSize: "50px 50px, 30px 30px, 40px 40px",
                   }}
                 />
               </div>
@@ -157,13 +171,15 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
             <div className="space-y-6">
               {/* Header */}
               <div className="space-y-3">
-                <h2 id="modal-title" className="text-2xl lg:text-3xl font-bold text-white leading-tight">
+                <h2
+                  id="modal-title"
+                  className="text-2xl lg:text-3xl font-bold text-white leading-tight"
+                >
                   {website.name}
                 </h2>
                 <a
-                  href={website.url}
+                  href={website.url + "?ref=powerfulwebsites.space"}
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex items-center space-x-2 text-orange-400 hover:text-orange-300 transition-colors duration-200 group"
                 >
                   <LinkIcon className="w-4 h-4" />
@@ -174,7 +190,9 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
 
               {/* Description */}
               <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-white">Description</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Description
+                </h3>
                 <p className="text-gray-300 leading-relaxed text-base">
                   {website.description}
                 </p>
@@ -204,24 +222,29 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                     {website.sources.map((source, index) => (
                       <a
                         key={index}
-                        href={source.source_url}
+                        href={source.source_url + "?ref=powerfulwebsites.space"}
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="block p-4 bg-gray-800/50 border border-gray-700/50 rounded-xl hover:border-amber-400/30 hover:bg-gray-800/70 transition-all duration-200 group"
                       >
                         <div className="flex items-start space-x-3">
                           {source.url_metadata.og_image && (
                             <img
-                              src={CloudinaryPresets.modalThumbnail(source.url_metadata.og_image)}
-                              srcSet={generateCloudinarySrcSet(source.url_metadata.og_image, 64, {
-                                height: 64,
-                                crop: 'fit'
-                              })}
+                              src={CloudinaryPresets.modalThumbnail(
+                                source.url_metadata.og_image
+                              )}
+                              srcSet={generateCloudinarySrcSet(
+                                source.url_metadata.og_image,
+                                64,
+                                {
+                                  height: 64,
+                                  crop: "fit",
+                                }
+                              )}
                               sizes="64px"
                               alt=""
                               className="w-16 h-16 object-contain rounded-lg flex-shrink-0 bg-gray-800"
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.style.display = "none";
                               }}
                             />
                           )}
@@ -246,12 +269,15 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
                 <div className="flex items-center justify-between text-sm text-gray-400">
                   <div className="flex items-center space-x-2">
                     <Calendar className="w-4 h-4" />
-                    <span>Added {new Date(website.added_at).toLocaleDateString()}</span>
+                    <span>
+                      Added {new Date(website.added_at).toLocaleDateString()}
+                    </span>
                   </div>
                   <a
-                    href={website.added_by.user_link}
+                    href={
+                      website.added_by.user_link + "?ref=powerfulwebsites.space"
+                    }
                     target="_blank"
-                    rel="noopener noreferrer"
                     className="flex items-center space-x-2 hover:text-orange-400 transition-colors duration-200"
                   >
                     <User className="w-4 h-4" />
@@ -264,9 +290,8 @@ export const WebsiteModal: React.FC<WebsiteModalProps> = ({ website, isOpen, onC
               {/* Visit Button */}
               <div className="pt-4">
                 <a
-                  href={website.url}
+                  href={website.url + "?ref=powerfulwebsites.space"}
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="w-full bg-orange-400 hover:bg-orange-500 text-black font-bold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 hover:scale-105 hover:shadow-lg hover:shadow-orange-400/20"
                 >
                   <span>Visit {website.name}</span>
