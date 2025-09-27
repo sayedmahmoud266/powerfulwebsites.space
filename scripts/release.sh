@@ -27,9 +27,9 @@ npm version $release_type --no-git-tag-version
 new_version=$(jq -r .version package.json)
 echo "New version: $new_version"
 
-# 5. Commit the updated version
+# 5. Commit all updated files
 if [[ -n $(git status --porcelain) ]]; then
-  git add package.json
+  git add -u
   git commit -m "chore: bump version to $new_version"
 fi
 
