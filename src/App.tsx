@@ -41,10 +41,7 @@ function App() {
     const gridWidth = el.clientWidth - 40;
     const cardMin = 280;
     const gap = 16; // gap-4 = 1rem = 16px
-    const cols = Math.max(
-      1,
-      Math.floor((gridWidth + gap) / (cardMin + gap)),
-    );
+    const cols = Math.max(1, Math.floor((gridWidth + gap) / (cardMin + gap)));
     setPageSize(cols * 3);
   }, []);
 
