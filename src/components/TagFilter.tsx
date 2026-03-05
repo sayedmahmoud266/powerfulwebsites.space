@@ -1,11 +1,12 @@
-import React from 'react';
-import { X, Filter } from 'lucide-react';
+import React from "react";
+import { X } from "lucide-react";
 
 interface TagFilterProps {
   selectedTags: string[];
   availableTags: string[];
   onTagToggle: (tag: string) => void;
   onClearAll: () => void;
+  hideHeader?: boolean;
 }
 
 export const TagFilter: React.FC<TagFilterProps> = ({
@@ -13,67 +14,54 @@ export const TagFilter: React.FC<TagFilterProps> = ({
   availableTags,
   onTagToggle,
   onClearAll,
+  hideHeader = false,
 }) => {
-  const isTagSelected = (tag: string) => selectedTags.includes(tag);
-
   if (availableTags.length === 0) return null;
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Filter className="w-5 h-5 text-orange-400" />
-          <h3 className="text-lg font-semibold text-white">Filter by Tags</h3>
-        </div>
-        {selectedTags.length > 0 && (
-          <button
-            onClick={onClearAll}
-            className="text-sm text-gray-400 hover:text-orange-400 transition-colors duration-200"
-          >
-            Clear all
-          </button>
-        )}
-      </div>
-
-      {/* Selected Tags */}
-      {selectedTags.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-300">Active Filters:</h4>
-          <div className="flex flex-wrap gap-2">
-            {selectedTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => onTagToggle(tag)}
-                className="inline-flex items-center space-x-1 px-3 py-1.5 bg-orange-400/20 border border-orange-400/40 text-orange-400 text-sm rounded-full hover:bg-orange-400/30 transition-all duration-200"
-                aria-label={`Remove ${tag} filter`}
-              >
-                <span>{tag}</span>
-                <X className="w-3 h-3" />
-              </button>
-            ))}
-          </div>
+    <div>
+      {/* Sidebar header */}
+      {!hideHeader && (
+        <div className="sticky top-0 z-10 bg-zinc-950 px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+            Categories
+          </span>
+          {selectedTags.length > 0 && (
+            <button
+              onClick={onClearAll}
+              className="text-xs text-zinc-500 hover:text-white transition-colors duration-150"
+              aria-label="Clear all filters"
+            >
+              Clear all
+            </button>
+          )}
         </div>
       )}
 
-      {/* Available Tags */}
-      <div className="space-y-2">
-        <h4 className="text-sm font-medium text-gray-300">All Tags:</h4>
-        <div className="flex flex-wrap gap-2">
-          {availableTags
-            .filter((tag) => !isTagSelected(tag))
-            .map((tag) => (
-              <button
-                key={tag}
-                onClick={() => onTagToggle(tag)}
-                className="px-3 py-1.5 bg-gray-700/30 border border-gray-600/50 text-gray-300 text-sm rounded-full hover:bg-orange-400/10 hover:border-orange-400/30 hover:text-orange-400 transition-all duration-200"
-                aria-label={`Add ${tag} filter`}
-              >
-                {tag}
-              </button>
-            ))}
-        </div>
-      </div>
+      {/* Tag list */}
+      <nav className="py-1">
+        {availableTags.map((tag) => {
+          const isSelected = selectedTags.includes(tag);
+          return (
+            <button
+              key={tag}
+              onClick={() => onTagToggle(tag)}
+              className={`w-full flex items-center justify-between px-4 py-2 text-sm text-left transition-colors duration-150 ${
+                isSelected
+                  ? "bg-white text-black font-medium"
+                  : "text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              }`}
+              aria-label={
+                isSelected ? `Remove ${tag} filter` : `Filter by ${tag}`
+              }
+              aria-pressed={isSelected}
+            >
+              <span className="truncate">{tag}</span>
+              {isSelected && <X className="w-3 h-3 shrink-0 ml-2" />}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 };
